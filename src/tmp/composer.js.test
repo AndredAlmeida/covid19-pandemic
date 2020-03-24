@@ -1,0 +1,26 @@
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { BloomPass } from 'three/examples/jsm/postprocessing/BloomPass.js';
+import { SobelOperatorShader } from 'three/examples/jsm/shaders/SobelOperatorShader.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import { CopyShader } from 'three/examples/jsm/shaders/CopyShader.js';
+
+
+	/*
+	// *** Testing Effects ***
+	composer = new EffectComposer(renderer);
+	var renderPass = new RenderPass(scene, camera);
+	composer.addPass(renderPass);
+	//var bloomPass = new SobelPass(
+    //1,    // strength
+    //10,   // kernel size
+    //1,    // sigma ?
+    //1024,  // blur render target resolution
+	//);
+	//composer.addPass( bloomPass );
+
+	var effectSobel = new ShaderPass(SobelOperatorShader);
+	effectSobel.uniforms[ 'resolution' ].value.x = window.innerWidth * window.devicePixelRatio;
+	effectSobel.uniforms[ 'resolution' ].value.y = window.innerHeight * window.devicePixelRatio;
+	composer.addPass( effectSobel );
+	*/
