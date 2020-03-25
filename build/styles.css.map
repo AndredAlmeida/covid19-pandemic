@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./main.css"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;;AAEA;AACA;AACA;AACA;AACA","file":"styles.css","sourcesContent":["html {\n\tbackground: #110033;\n\tfont-family: \"Avenir Next W00\",\"Helvetica Neue\",Helvetica,Arial,sans-serif;\n}\n\nbody {\n\tmargin: 0;\n\tpadding: 0;\n\toverflow: hidden;\n}\n"],"sourceRoot":""}

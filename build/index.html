@@ -2,16 +2,16 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <title>COVID-19 Pandemic</title>
 
 	<style>
 	.infoLabel {
 		position: fixed;
-		height: 700px;
+		height: 300px;
 		width: 300px;
-		background-color: rgba(0, 50, 100, 0.5);
+		background-color: rgba(0, 50, 255, 0.0);
 		box-shadow: 0px 0px 30px rgba(0, 50, 255, 0.0);
-		margin-top: 10px;
+		margin: 15px;
 		border-radius:40px;
 		z-index:10;
 		opacity: 1.0;
@@ -36,11 +36,6 @@
 	.redText {
 		text-shadow: #FF0000 0 0px 20px;
 		color: #FF0000;
-	}
-
-	.purpleText {
-		text-shadow: #FF00FF 0 0px 20px;
-		color: #FF00FF;
 	}
 
 	.topLabel {
@@ -166,98 +161,34 @@
 	  border-color: rgba(0, 50, 155, 0.6) transparent transparent transparent;
 	}
 
-	.selectDisplayButton {
-		width: 120px;
-		height: 40px;
-		top: 0px;
-		left: 0px;
-		background-color: rgba(0, 50, 255, 0.4);
-		outline: none;
-		border: 0px;
-		box-shadow: 0px 0px 20px rgba(0, 50, 255, 0.3);
-		cursor: pointer;
-		font-size: 13px;
-		margin-bottom: 5px;
-		font-weight: bold;
-	}
-
-	.selectDisplayButton:hover {
-		background-color: rgba(0, 50, 255, 0.8);
-		box-shadow: 0px 0px 20px rgba(0, 50, 255, 0.6);
-	}
-
-	.buttonHighlight {
-		background-color: rgba(0, 50, 255, 0.8);
-		box-shadow: 0px 0px 20px rgba(0, 50, 255, 0.6);
-		font-size: 14px;
-	}
-
-	.buttonLeft {
-		border-radius:10px 10px 0px 0px;
-	}
-	.buttonMiddle {
-		border-radius:0px 0px 0px 0px;
-	}
-	.buttonRight {
-		border-radius:0px 00px 10px 10px;
-	}
-
 	</style>
 
-  </head>
+  <link href="styles.css" rel="stylesheet"></head>
   <body>
   	<div class="topLabel blueText">
   		COVID-19 PANDEMIC EVOLUTION
   	</div>
   	<div class="infoLabel"> 
-
-  		<div id="totalLabel" class="infoText blueText" style="font-size: 20px; bottom-margin: 0px;">
-  			TOTAL
+  		<div id="topIdLabel" class="infoText blueText" style="font-size: 25px;">
+  			TOTAL CASES
   		</div>
-  		<div id="dateLabel" class="infoText blueText" style="font-size: 40px;margin-top: 0px;">
-  			TODAY
-  		</div>
-  		<br>
-  		<div id="topIdLabel" class="infoText redText" style="font-size: 30px;">
-  			CASES
-  		</div>
-  		<div id="topId" class="infoText redText" style="font-size: 65px; margin-top: -5px; margin-bottom: 20px;">
+  		<div id="topId" class="infoText blueText" style="font-size: 70px; margin-top: -5px; margin-bottom: 20px;">
   			316,652
   		</div>
 
-  		<div id="secondIdLabel" class="infoText greenText" style="font-size: 15px;">
+  		<div id="secondIdLabel" class="infoText greenText" style="font-size: 20px;">
   			RECOVERED
   		</div>
-  		<div id="secondId" class="infoText greenText" style="font-size: 40px; margin-top: 5px; margin-bottom: 20px;">
+  		<div id="secondId" class="infoText greenText" style="font-size: 50px; margin-top: 5px; margin-bottom: 20px;">
   			94,185
   		</div>
 
-  		<div id="thirdIdLabel" class="infoText purpleText" style="font-size: 15px;">
+  		<div id="thirdIdLabel" class="infoText redText" style="font-size: 20px;">
   			DEATHS
   		</div>
-  		<div id="thirdId" class="infoText purpleText" style="font-size: 40px; margin-top: 5px;">
+  		<div id="thirdId" class="infoText redText" style="font-size: 50px; margin-top: 5px;">
   			13,592
   		</div>
-  		<br><br><br>
-  		<div id="selectLabel" style="position:relative; background-color: rgba(0, 0, 0, 0.2); width: 180px; height: 180px; left:50%;transform: translate(-50%, 0%);padding-top: 20px;border-radius:25px;font-weight: bold;">
-  			<div class="blueText" style="text-align: center;">
-  				DISPLAY
-  			</div>
-	  		<div class="infoText">
-				<button id="selectCases" class="selectDisplayButton buttonLeft blueText buttonHighlight" type="button">
-					CASES
-				</button>
-				<br>
-				<button id="selectRecoveries" class="selectDisplayButton buttonMiddle blueText" type="button">
-					RECOVERIES
-				</button>
-				<br>
-				<button id="selectDeaths" class="selectDisplayButton buttonRight blueText" type="button">
-					DEATHS
-				</button>
-			</div>
-		</div>
-
   	</div>
   	<div id="timelineDiv" class="sliderDiv">
 	<input type="range" min="0" max="1000" value="1000" class="slider" id="timeRange">
@@ -270,8 +201,9 @@
 		<div class="tooltip" id="tooltipId">
 			  <span class="tooltiptext" id="tooltipText">TODAY</span>
 		</div>
+
 	</div>
   	<div id="fps"></div>
-  </body>
+  <script type="text/javascript" src="main.9289985478c0c9b29c6f.js"></script></body>
 </html>
 

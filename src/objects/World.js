@@ -71,6 +71,11 @@ export default class World extends THREE.Group {
 		this.graticules.rotation.x = x;
 	}
 
+	setDataColor(color1, color2) {
+		this.points.material1.color = new THREE.Color(color1);
+		this.points.material2.color = new THREE.Color(color2);
+	}
+
 	update(dt) {
 		//this.mesh.rotation.x += 0.01;
 		//this.mesh.rotation.y += 0.02;

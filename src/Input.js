@@ -72,6 +72,9 @@ export default class Input {
 			inputInstance.pressRight = true;
 			//Global.data.addTime(0.1);
 
+		}else if(key == 32) // space
+		{
+			Global.timeline.playPauseClick();
 		}
 	}
 
@@ -93,6 +96,16 @@ export default class Input {
 
 		scale = Clamp(scale, GLOBE_RADIUS/2, GLOBE_RADIUS*3);
 		inputInstance.world.worldScale = scale;
+	}
+
+	updateTimeSlider() {
+		var slider = document.getElementById("timeRange");
+
+		var backupFunction = slider.oninput; // Don't call update function
+		var perc = Global.data.day/Global.data.lastDay;
+		slider.value = perc*1000;
+		slider.oninput = backupFunction;
+		Global.timeline.updateTooltip();
 	}
 
 	update(dt) {
@@ -123,10 +136,12 @@ export default class Input {
 		if(this.pressLeft)
 		{
 			Global.data.subTime(0.1);
+			this.updateTimeSlider();
 		}
 		if(this.pressRight)
 		{
-			Global.data.addTime(0.1);			
+			Global.data.addTime(0.1);
+			this.updateTimeSlider();
 		}
 	}
 }

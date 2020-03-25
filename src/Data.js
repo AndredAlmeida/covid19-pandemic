@@ -7,11 +7,15 @@ export default class Data {
 	}
 
 	addTime(t) {
+		var didReachEnd = false;
 		this.day += t;
 
 		// Cannot go higher than this.lastDay
-		if(this.day > this.lastDay)
+		if(this.day > this.lastDay){
 			this.day = this.lastDay;
+			didReachEnd = true;
+		}
+		return didReachEnd;
 	}
 
 	subTime(t) {
@@ -59,6 +63,10 @@ export default class Data {
 		return resultCases;
 	}
 
+	getDateForDay(day) {
+		return this.headerArray[parseInt(day)+this.firstDayIndex]
+	}
+
 	loadData(arrayData, loadIntoPoints, url) {
 		var oReq = new XMLHttpRequest();
 		var _this = this;
@@ -69,8 +77,10 @@ export default class Data {
 			var response = this.responseText;
 			_this.dataInfo[arrayData] = response.split('\n');
 			var countryCount = _this.dataInfo[arrayData].length-1;
-			if(arrayData == "cases")
+			if(arrayData == "cases"){
 				_this.countryCount = countryCount;
+				_this.headerArray = Papa.parse(_this.dataInfo["cases"][0]).data[0];
+			}
 
 		  	for(var i = 1; i < _this.countryCount; i++) // i = 1 to exclude header
 		  	{

@@ -7,4 +7,4 @@ class Global {
 export default (new Global);
 export const GLOBE_RADIUS = 10;
 export const OFFSET_Z = 0.25;
-export const SIDE_MARGIN = 0.81;
+export const SIDE_MARGIN = 0.78;

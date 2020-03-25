@@ -10,6 +10,7 @@ import Data from './Data';
 import { Stats } from 'three-stats';
 import Global, { GLOBE_RADIUS } from './Global';
 import Overlay from './Overlay';
+import Timeline from './Timeline';
 
 var camera, scene, renderer;
 var world;
@@ -18,6 +19,7 @@ var input;
 var clock;
 var data;
 var overlay;
+var timeline;
 
 init();
 animate();
@@ -76,6 +78,9 @@ function init() {
 	data.load();
 
 	overlay = new Overlay();
+	timeline = new Timeline();
+
+	Global.timeline = timeline;
 }
 
 function animate() {
@@ -88,7 +93,8 @@ function animate() {
 	input.update(dt);
 	world.update(dt);
 	overlay.update(dt);
-	
+	timeline.update(dt);
+
 	renderer.render(scene, camera);
 
 	statsFPS.end();
@@ -115,9 +121,8 @@ function windowResizeHandler() {
 
 	var fpsElement = document.getElementById('fps');
 	if(!fpsElement.lastChild){
-		//fpsElement.appendChild(statsFPS.domElement);
+		fpsElement.appendChild(statsFPS.domElement);
 	}
 };
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler);
-
