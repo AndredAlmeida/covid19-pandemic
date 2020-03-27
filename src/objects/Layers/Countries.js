@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { ConicPolygonBufferGeometry } from 'three-conic-polygon-geometry';
-import countries from './../../../ne_110m_admin_0_countries.json';
+import countries from './../../../data/ne_110m_admin_0_countries.json';
 
 import threeDigest from '../../utils/digest';
 
@@ -41,7 +41,7 @@ export default class Countries extends THREE.Group  {
 				createObj: () => {
 			        const obj = new THREE.Group();
 			        //var sideMaterial = new THREE.MeshPhongMaterial({ color: 0xDDFF77, side: THREE.DoubleSide, depthWrite: true, depthTest: true, transparent: false, emissive: 0x000000 });
-			        var capMaterial = new THREE.MeshPhongMaterial({ color: 0xFFFF77, side: THREE.DoubleSide, depthWrite: true, depthTest: true, transparent: false, emissive: 0xFF1100 });
+			        var capMaterial = new THREE.MeshPhongMaterial({ color: 0xFFFF77, side: THREE.FrontSide, depthWrite: true, depthTest: true, transparent: false, emissive: 0xFF1100 });
 			        //
 			        capMaterial.shininess = 1;
 			        var m = new THREE.Mesh(undefined, /*sideMaterial, */capMaterial);

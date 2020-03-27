@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { polar2Cartesian } from '../../utils/coordTranslate';
 import { Remap, GetBaseLog } from '../../utils/MathUtils';
-import { OFFSET_Z, GLOBE_RADIUS } from './../../Global';
+import { OFFSET_Z, GLOBE_RADIUS, MAX_SCALE } from './../../Global';
 import Global from './../../Global';
 
 export default class Points extends THREE.Group  {
@@ -29,6 +29,13 @@ export default class Points extends THREE.Group  {
 		if(size < 0.05)
 			size = 0.05;
 		size += 0.1;
+
+		if(Global.world.scale.x > GLOBE_RADIUS)
+		{
+			var scaleVal = Remap(Global.world.scale.x, GLOBE_RADIUS, MAX_SCALE, 0.5, 1.0);
+			size = size*(1.0 - (scaleVal - 0.5));
+		}
+
 		return size;
 	}
 
@@ -51,7 +58,6 @@ export default class Points extends THREE.Group  {
 		var cases = Global.data.getNumber(index);
 		//if(cases < 0)
 			//console.log(index);
-		this.counter += cases;
 
 		var baseScale = this.getSizeFromCases(cases);
 

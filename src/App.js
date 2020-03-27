@@ -81,6 +81,7 @@ function init() {
 	timeline = new Timeline();
 
 	Global.timeline = timeline;
+	Global.camera = camera;
 }
 
 function animate() {
@@ -123,6 +124,8 @@ function windowResizeHandler() {
 	if(!fpsElement.lastChild){
 		fpsElement.appendChild(statsFPS.domElement);
 	}
+	if(Global.timeline)
+		Global.timeline.updateTooltip();
 };
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler);

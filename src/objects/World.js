@@ -3,6 +3,7 @@ import WorldSphere from './Layers/WorldSphere.js';
 import Countries from './Layers/Countries.js';
 import Points from './Layers/Points.js';
 import Atmosphere from './Layers/Atmosphere.js';
+import Arcs from './Layers/Arcs.js';
 import { geoGraticule10 } from 'd3-geo';
 import { GeoJsonGeometry } from 'three-geojson-geometry';
 import { OFFSET_Z, GLOBE_RADIUS, SIDE_MARGIN } from './../Global';
@@ -47,6 +48,13 @@ export default class World extends THREE.Group {
 		this.add(this.points);
 		this.points.position.z += offsetZ;
 
+		// Arcs
+		this.arcs = new Arcs();
+		this.add(this.arcs);
+		//this.arcs.position.z -= offsetZ-12;
+		//this.arcs.position.z -= 0.25+12;
+	    //this.arcs.renderOrder = 150;
+
 	}
 
 	getRotationY() {
@@ -58,6 +66,7 @@ export default class World extends THREE.Group {
 		this.countries.rotation.y = y;
 		this.points.rotation.y = y;
 		this.graticules.rotation.y = y;
+		this.arcs.rotation.y = y;
 	}
 
 	getRotationX() {
@@ -69,6 +78,7 @@ export default class World extends THREE.Group {
 		this.countries.rotation.x = x;
 		this.points.rotation.x = x;
 		this.graticules.rotation.x = x;
+		this.arcs.rotation.x = x;
 	}
 
 	setDataColor(color1, color2) {
@@ -87,5 +97,6 @@ export default class World extends THREE.Group {
 		this.scale.z = newScale;
 
 		this.points.update(dt);
+		this.arcs.update(dt);
 	}
 }

@@ -1,6 +1,6 @@
 var inputInstance;
-import Global, { GLOBE_RADIUS } from './Global';
-import { Clamp } from './utils/MathUtils';
+import Global, { GLOBE_RADIUS, MIN_SCALE, MAX_SCALE } from './Global';
+import { Clamp, Remap } from './utils/MathUtils';
 
 export default class Input {
 
@@ -35,8 +35,10 @@ export default class Input {
 			var deltaX = e.clientX - inputInstance.lastX;
 			var deltaY = e.clientY - inputInstance.lastY;
 
-			inputInstance.accX += deltaY/350;
-			inputInstance.accY += deltaX/350;
+			var moveSpeed = Remap(Global.world.scale.x, MIN_SCALE, MAX_SCALE, 200, 1500);
+
+			inputInstance.accX += deltaY/moveSpeed;
+			inputInstance.accY += deltaX/moveSpeed;
 
 			inputInstance.speedX = inputInstance.accX;
 			inputInstance.speedY = inputInstance.accY;
@@ -93,9 +95,25 @@ export default class Input {
 	wheel(e) {
 		var scale = inputInstance.world.worldScale;
 		scale -= e.deltaY/50;
+		scale = Clamp(scale, MIN_SCALE, MAX_SCALE);
 
-		scale = Clamp(scale, GLOBE_RADIUS/2, GLOBE_RADIUS*3);
 		inputInstance.world.worldScale = scale;
+
+		/*
+		// Testing: Checking if world goes inside left panel, adjust opacity
+		var w_units = Math.abs(Global.camera.left*2.0);
+		var w_px = window.innerWidth;
+		var pixelsToUnits = w_units/w_px;
+		var panelW_units = 300*pixelsToUnits; // 300 is panel width
+		var leftWorldPos = w_units/2.0 - scale;
+		if(leftWorldPos < panelW_units)
+		{
+			//$('#infoLabelId').css({ 'background-color': 'rgba(0, 50, 100, 0.5)' });
+		}else{
+			//$('#infoLabelId').css({ 'background-color': 'rgba(0, 50, 100, 0.0)' });
+		}
+		*/
+
 	}
 
 	updateTimeSlider() {

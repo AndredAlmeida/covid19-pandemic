@@ -1,4 +1,5 @@
-import Global from './Global';
+import Global, { GLOBE_RADIUS, MIN_SCALE, MAX_SCALE } from './Global';
+import { Remap } from './utils/MathUtils';
 
 export default class Timeline {
 
@@ -19,6 +20,7 @@ export default class Timeline {
 			e.stopPropagation();
 		}, false);
 
+		this.smoothY = 0;
 	}
 
 	setPlayButton(){
@@ -34,9 +36,14 @@ export default class Timeline {
 	}
 
 	updateTooltip(){
+		if(!Global.data.lastDay)
+			return;
+
 		var perc = Global.data.day/Global.data.lastDay;
-		var toolTipLeftPerc = 3 + perc*97;
-		$('#tooltipId').css({ 'left': toolTipLeftPerc+'%' });
+		var toolTipLeftPerc = perc*(window.innerWidth*0.55) - 20*perc;
+
+		$('#tooltipId').css({ 'left': toolTipLeftPerc+'px' });
+		$('#tooltipId').css({ 'opacity': '1.0' });
 
 		// Update tooltip text
 		var date;
@@ -93,9 +100,10 @@ export default class Timeline {
 	}
 
 	update(dt) {
-		if(!Global.data.dataInfo["cases"])
+		if(!Global.data.lastDay){
 			return;
-			
+		}
+
 		if(this.isAnimationRunning)
 		{
 			if(Global.data.addTime(0.05))
@@ -104,6 +112,24 @@ export default class Timeline {
 				this.setPlayButton();
 			}
 			this.updateSeekPosition();
+
+		}
+
+		// Camera Interest Animation
+		if(0)
+		{
+			// Rotation
+			var animationTime = this.slider.value/1000.0;
+			var rY = Remap(Math.pow(animationTime,2.0), 0.0, 1.0, -Math.PI*0.6, Math.PI/2.0);
+			this.smoothY += (rY-this.smoothY)/20;
+			Global.world.setRotationY(this.smoothY);
+			Global.world.setRotationX(Math.PI*0.15);
+
+			// Zoom
+			var outMax = GLOBE_RADIUS*2.0;
+			var outMin = GLOBE_RADIUS*0.75;
+			var scale = outMax + (outMin - Remap(Math.pow(animationTime,1/3), 0.0, 1.0, outMin, outMax));
+			Global.world.worldScale = scale;
 		}
 	}
 }
