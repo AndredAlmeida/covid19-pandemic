@@ -150,6 +150,12 @@ export default class Input {
 		inputInstance.accX = 0;
 		inputInstance.accY = 0;
 
+		if(Global.timeline.isAnimationRunning && Global.followCamera && this.mouseClicked){
+			Global.setFollowCamera(false);
+			$('input#checkboxCameraFollowId').prop('checked', false);
+		}
+
+
 		// Change Time
 		if(this.pressLeft)
 		{

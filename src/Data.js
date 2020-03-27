@@ -43,10 +43,10 @@ export default class Data {
 		return parseInt(resultCases);
 	}
 
-	getNumber(index) {
-		if(this.dataInfo[this.selectedData].length-1 < index)
+	getNumberForData(index, dataString) {
+		if(this.dataInfo[dataString].length-1 < index)
 			return 0;
-		var entry = this.dataInfo[this.selectedData][index];
+		var entry = this.dataInfo[dataString][index];
 
 		//console.log(this.day);
 		var prevDayIndex = parseInt(this.day+this.firstDayIndex);
@@ -63,6 +63,17 @@ export default class Data {
 		var fracDay = curDayIndex - prevDayIndex;
 		var resultCases = cases1 + (cases2-cases1)*fracDay;
 		return resultCases;
+	}
+
+	getNumber(index) {
+		if(this.selectedData == "active")
+		{
+			var casesNum = this.getNumberForData(index, "cases");
+			var recoveredNum = this.getNumberForData(index, "recovered");
+			return casesNum - recoveredNum;
+		}else{
+			return this.getNumberForData(index, this.selectedData);
+		}
 	}
 
 	getDateForDay(day) {

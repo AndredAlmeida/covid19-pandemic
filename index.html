@@ -3,226 +3,6 @@
   <head>
     <meta charset="UTF-8">
     <title><%= htmlWebpackPlugin.options.title %></title>
-
-	<style>
-
-	.titleLabel {
-		margin: auto;
-		background-color: rgba(17, 0, 51, 0.4);
-		width: 430px;
-		border-radius:10px;
-		box-shadow: 0px 0px 10px rgba(17, 0, 51, 0.4);
-	}
-	.infoLabel {
-		position: fixed;
-		height: 700px;
-		width: 300px;
-		background-color: rgba(17, 0, 51, 0.5);
-		box-shadow: 0px 0px 50px rgba(17, 0, 51, 0.0);
-		margin: 10px;
-		border-radius:20px;
-		z-index:10;
-		opacity: 1.0;
-	}
-
-	.infoText {
-		text-align:center;
-		margin-bottom: 0px;
-		margin-top: 15px;
-	}
-
-	.blueText {
-		text-shadow: #0077FF 0 0px 20px;
-		color: #00AAFF;
-	}
-
-	.greenText {
-		text-shadow: #00FF00 0 0px 20px;
-		color: #00FF00;
-	}
-
-	.redText {
-		text-shadow: #FF0000 0 0px 20px;
-		color: #FF0000;
-	}
-
-	.purpleText {
-		text-shadow: #FF00FF 0 0px 20px;
-		color: #FF00FF;
-	}
-
-	.topLabel {
-		position: fixed;
-		text-align:center;
-		top: 20px;
-		width: 100%;
-		height: 30px;
-		font-size: 23px;
-		font-weight: bold;
-	}
-
-	.slider {
-		position: fixed;
-		bottom: 35%;
-		width: 100%;
-		height: 7px;
-		left: 0%;
-		-webkit-appearance: none;
-		-webkit-transition: .2s;
-		border-radius: 15px;
-		background: rgba(0, 50, 155, 1.0);
-		outline: none;
-		box-shadow: 0px 0px 30px rgba(0, 0, 255, 0.5);
-	}
-
-	.slider::-webkit-slider-thumb {
-	  -webkit-appearance: none; /* Override default look */
-	  appearance: none;
-	  width: 20px; /* Set a specific slider handle width */
-	  height: 20px; /* Slider handle height */
-	  background: rgba(0, 80, 255, 1.0); /* Green background */
-	  cursor: pointer; /* Cursor on hover */
-	  border-radius:15px;
-	  box-shadow: 0px 0px 20px rgba(0, 155, 255, 1.0);
-	}
-
-	.slider::-webkit-slider-thumb:hover {
-	  background-color: rgba(0, 120, 255, 1.0);
-	  box-shadow: 0px 0px 20px rgba(0, 195, 255, 1.0);
-	}
-
-	.sliderBGDiv {
-		position: fixed;
-		bottom: 2px;
-		width: 65%;
-		height: 70px;		
-		left: 50%;
-		background-color: rgba(17, 0, 51, 0.4);
-		transform:translate(-50%,0%);
-		border-radius:15px;
-	}
-
-	.sliderDiv {
-		position: fixed;
-		bottom: 5px;
-		width: 55%;
-		height: 70px;		
-		left: 50%;
-		background-color: rgba(20, 20, 20, 0.0);
-		transform:translate(-50%,0%);
-		box-shadow: 0px 0px 30px rgba(0, 50, 255, 0.0);
-		border-radius:15px;
-	}
-
-	.playBtnClass {
-		position: fixed;
-		width: 50px;
-		height: 40px;
-		top: 20px;
-		left: 0px;
-		transform:translate(-120%,0%);
-		background-color: rgba(0, 50, 255, 0.4);
-		border-radius:10px;
-		outline: none;
-		border: 0px;
-		box-shadow: 0px 0px 20px rgba(0, 50, 255, 0.3);
-		cursor: pointer;
-	}
-
-	.playBtnClass:hover {
-	  background-color: rgba(0, 50, 255, 0.5);
-	  box-shadow: 0px 0px 20px rgba(0, 50, 255, 0.6);
-	}
-
-	.play {
-	    width: 0;
-	    height: 0;
-	    border-top: 8px solid transparent;
-	    border-left: 12px solid rgba(0, 50, 255, 1.0);
-	    border-bottom: 8px solid transparent;
-	}
-	.pause {
-	    width: 4px;
-	    height: 16px;
-	    border-right: 4px solid rgba(0, 50, 255, 1.0);
-	    border-left: 4px solid rgba(0, 50, 255, 1.0);
-	}
-
-	.tooltip {
-	  position: relative;
-	  display: inline-block;
-	  border-bottom: 1px dotted black;
-	  left: 3%;
-	  opacity: 0.0;
-	}
-
-	.tooltip .tooltiptext {
-	  visibility: visible;
-	  width: 90px;
-	  height: 20px;
-	  background-color: rgba(0, 50, 155, 1.0);
-	  box-shadow: 0px 0px 20px rgba(0, 50, 255, 0.3);
-	  color: rgba(0, 100, 255, 1.0);
-	  font-weight: bold;
-	  text-align: center;
-	  border-radius: 6px;
-	  padding: 5px 0;
-	  position: absolute;
-	  z-index: 1;
-	  bottom: 125%;
-	  left: 0;
-	  margin-left: -35px;
-	}
-
-	.tooltip .tooltiptext::after {
-	  content: "";
-	  position: absolute;
-	  top: 100%;
-	  left: 50%;
-	  margin-left: -5px;
-	  border-width: 5px;
-	  border-style: solid;
-	  border-color: rgba(0, 50, 155, 0.6) transparent transparent transparent;
-	}
-
-	.selectDisplayButton {
-		width: 120px;
-		height: 40px;
-		top: 0px;
-		left: 0px;
-		background-color: rgba(0, 50, 255, 0.4);
-		outline: none;
-		border: 0px;
-		box-shadow: 0px 0px 20px rgba(0, 50, 255, 0.3);
-		cursor: pointer;
-		font-size: 13px;
-		margin-bottom: 5px;
-		font-weight: bold;
-	}
-
-	.selectDisplayButton:hover {
-		background-color: rgba(0, 50, 255, 0.8);
-		box-shadow: 0px 0px 20px rgba(0, 50, 255, 0.6);
-	}
-
-	.buttonHighlight {
-		background-color: rgba(0, 50, 255, 0.8);
-		box-shadow: 0px 0px 20px rgba(0, 50, 255, 0.6);
-		font-size: 14px;
-	}
-
-	.buttonLeft {
-		border-radius:10px 10px 0px 0px;
-	}
-	.buttonMiddle {
-		border-radius:0px 0px 0px 0px;
-	}
-	.buttonRight {
-		border-radius:0px 00px 10px 10px;
-	}
-
-	</style>
-
   </head>
   <body>
   	<div class="topLabel blueText">
@@ -232,35 +12,41 @@
   	</div>
   	<div id="pho" class="infoLabel"> 
 
-  		<div id="totalLabel" class="infoText blueText" style="font-size: 20px; bottom-margin: 0px;">
+  		<div id="totalLabel" class="infoText blueText" style="font-size: 18px; bottom-margin: 0px;">
   			TOTAL
   		</div>
-  		<div id="dateLabel" class="infoText blueText" style="font-size: 40px;margin-top: 0px;">
+  		<div id="dateLabel" class="infoText blueText" style="font-size: 38px;margin-top: 0px;">
   			TODAY
   		</div>
-  		<br>
   		<div id="topIdLabel" class="infoText redText" style="font-size: 30px;">
   			CASES
   		</div>
   		<div id="topId" class="infoText redText" style="font-size: 65px; margin-top: -5px; margin-bottom: 20px;">
-  			316,652
+  			...
   		</div>
 
   		<div id="secondIdLabel" class="infoText greenText" style="font-size: 15px;">
   			RECOVERED
   		</div>
   		<div id="secondId" class="infoText greenText" style="font-size: 40px; margin-top: 5px; margin-bottom: 20px;">
-  			94,185
+  			...
   		</div>
 
   		<div id="thirdIdLabel" class="infoText purpleText" style="font-size: 15px;">
   			DEATHS
   		</div>
   		<div id="thirdId" class="infoText purpleText" style="font-size: 40px; margin-top: 5px;">
-  			13,592
+  			...
   		</div>
-  		<br><br><br>
-  		<div id="selectLabel" style="position:relative; background-color: rgba(0, 0, 0, 0.2); width: 180px; height: 180px; left:50%;transform: translate(-50%, 0%);padding-top: 20px;border-radius:25px;font-weight: bold;">
+
+  		<div id="fourthIdLabel" class="infoText brightBlueText" style="font-size: 15px;">
+  			ACTIVE
+  		</div>
+  		<div id="fourthId" class="infoText brightBlueText" style="font-size: 40px; margin-top: 5px;">
+  			...
+  		</div>
+  		<br>
+  		<div id="selectLabel" style="position:relative; background-color: rgba(0, 0, 0, 0.2); width: 200px; height: 305px; left:50%;transform: translate(-50%, 0%);padding-top: 20px;border-radius:25px;font-weight: bold;">
   			<div class="blueText" style="text-align: center;">
   				DISPLAY
   			</div>
@@ -273,9 +59,24 @@
 					RECOVERIES
 				</button>
 				<br>
-				<button id="selectDeaths" class="selectDisplayButton buttonRight blueText" type="button">
+				<button id="selectDeaths" class="selectDisplayButton buttonMiddle blueText" type="button">
 					DEATHS
 				</button>
+				<br>
+				<button id="selectActive" class="selectDisplayButton buttonRight blueText" type="button">
+					ACTIVE
+				</button>
+				<br><br>
+
+				<label class="container blueText" style="font-size: 13px;">INFECT VECTORS
+				  <input id="checkboxVectorId" type="checkbox" checked="checked">
+				  <span class="checkmark"></span>
+				</label>
+				<br>
+				<label class="container blueText" style="font-size: 13px;">CAMERA FOLLOW
+				  <input id="checkboxCameraFollowId" type="checkbox" checked="checked">
+				  <span class="checkmark"></span>
+				</label>
 			</div>
 		</div>
 

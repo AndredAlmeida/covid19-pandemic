@@ -10,6 +10,7 @@ export default class Overlay {
 			$('#selectDeaths').removeClass("buttonHighlight");
 			$('#selectRecoveries').removeClass("buttonHighlight");
 			$('#selectCases').addClass("buttonHighlight");
+			$('#selectActive').removeClass("buttonHighlight");
 
 			Global.world.setDataColor(0xFF0000, 0x330000);
 		};
@@ -21,6 +22,7 @@ export default class Overlay {
 			$('#selectDeaths').removeClass("buttonHighlight");
 			$('#selectRecoveries').addClass("buttonHighlight");
 			$('#selectCases').removeClass("buttonHighlight");
+			$('#selectActive').removeClass("buttonHighlight");
 
 			Global.world.setDataColor(0x00AA00, 0x001100);
 		};
@@ -32,8 +34,21 @@ export default class Overlay {
 			$('#selectDeaths').addClass("buttonHighlight");
 			$('#selectRecoveries').removeClass("buttonHighlight");
 			$('#selectCases').removeClass("buttonHighlight");
+			$('#selectActive').removeClass("buttonHighlight");
 
 			Global.world.setDataColor(0xFF00FF, 0x330033);
+		};
+
+		var selectActiveButton = document.getElementById("selectActive");
+		selectActiveButton.onclick = function(){
+			Global.data.selectedData = "active";
+
+			$('#selectDeaths').removeClass("buttonHighlight");
+			$('#selectRecoveries').removeClass("buttonHighlight");
+			$('#selectCases').removeClass("buttonHighlight");
+			$('#selectActive').addClass("buttonHighlight");
+
+			Global.world.setDataColor(0x009999, 0xFFFFFF);
 		};
 
 
@@ -41,15 +56,46 @@ export default class Overlay {
 			e.stopPropagation();
 		}, false);
 
+		var checkVectorId = $('input#checkboxVectorId');
+		checkVectorId.change(function () {
+		    if (checkVectorId.is(':checked')) {
+		        Global.setDrawVectors(true);
+		    } else {
+		        Global.setDrawVectors(false);
+		    }
+		    Global.world.arcs.visible = Global.drawVectors;
+		});
 
+		var checkFollowId = $('input#checkboxCameraFollowId');
+		checkFollowId.change(function () {
+		    if (checkFollowId.is(':checked')) {
+		        Global.setFollowCamera(true);
+		    } else {
+		        Global.setFollowCamera(false);
+		    }
+		});
+
+		this.restoreConfig();
+	}
+
+	restoreConfig() {
+		$('input#checkboxCameraFollowId').prop('checked', Global.followCamera);
+		$('input#checkboxVectorId').prop('checked', Global.drawVectors);
+		Global.world.arcs.visible = Global.drawVectors;
 	}
 
 	update(dt) {
 		if(!Global.data.dataInfo["cases"])
 			return;
 
-		$('#topId')[0].innerText = NumberWithCommas(Global.data.getCurrentTotal("cases"));
-		$('#secondId')[0].innerText = NumberWithCommas(Global.data.getCurrentTotal("recovered"));
+
+		var cases = Global.data.getCurrentTotal("cases");
+		var recovered = Global.data.getCurrentTotal("recovered");
+
+		$('#topId')[0].innerText = NumberWithCommas(cases);
+		$('#secondId')[0].innerText = NumberWithCommas(recovered);
 		$('#thirdId')[0].innerText = NumberWithCommas(Global.data.getCurrentTotal("deaths"));
+		$('#fourthId')[0].innerText = NumberWithCommas(cases - recovered);
+
 	}
 }

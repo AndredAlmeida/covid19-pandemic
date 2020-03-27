@@ -1,7 +1,31 @@
 class Global {
-  constructor() {
-    //this.GLOBE_RADIUS = 30;
-  }
+	constructor() {
+		this.readConfig();
+	}
+
+	readConfig() {
+		var followCamera = window.localStorage.followCamera;
+		var drawVectors = window.localStorage.drawVectors;
+		this.followCamera = followCamera === "true" || followCamera == undefined ? true : false;
+		this.drawVectors = drawVectors === "true" || drawVectors == undefined ? true : false;
+	}
+
+	saveConfig() {
+		window.localStorage.followCamera = this.followCamera;
+		window.localStorage.drawVectors = this.drawVectors;
+	}
+
+	setDrawVectors(b)
+	{
+		this.drawVectors = b;
+		this.saveConfig();
+	}
+
+	setFollowCamera(b)
+	{
+		this.followCamera = b;
+		this.saveConfig();
+	}
 }
 
 export default (new Global);

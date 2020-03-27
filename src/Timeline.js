@@ -96,6 +96,10 @@ export default class Timeline {
 			}
 			timeline.isAnimationRunning = true;
 			timeline.setPauseButton();
+
+			// Make sure camera movement is smooth
+			timeline.smoothY = Global.world.getRotationY();
+			timeline.smoothX = Global.world.getRotationX();
 		}
 	}
 
@@ -116,17 +120,20 @@ export default class Timeline {
 		}
 
 		// Camera Interest Animation
-		if(0)
+		if(Global.followCamera && this.isAnimationRunning)
 		{
 			// Rotation
 			var animationTime = this.slider.value/1000.0;
 			var rY = Remap(Math.pow(animationTime,2.0), 0.0, 1.0, -Math.PI*0.6, Math.PI/2.0);
 			this.smoothY += (rY-this.smoothY)/20;
 			Global.world.setRotationY(this.smoothY);
-			Global.world.setRotationX(Math.PI*0.15);
+
+			var x = Math.PI*0.15;
+			this.smoothX += (x-this.smoothX)/20;
+			Global.world.setRotationX(this.smoothX);
 
 			// Zoom
-			var outMax = GLOBE_RADIUS*2.0;
+			var outMax = GLOBE_RADIUS*1.5;
 			var outMin = GLOBE_RADIUS*0.75;
 			var scale = outMax + (outMin - Remap(Math.pow(animationTime,1/3), 0.0, 1.0, outMin, outMax));
 			Global.world.worldScale = scale;
