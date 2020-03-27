@@ -23,7 +23,7 @@ const gradientShaders = {
     varying float z;
     void main() {
       // pass through colors and distances
-      vColor = vec4(1,0.0,0.0,1);
+      vColor = vec4(1,0.0,0.0,0.5);
       vRelDistance = vertexRelDistance + dashTranslate;
       gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
       p = (modelViewMatrix * vec4(position, 1.0)).xyz;
@@ -146,7 +146,7 @@ export default class Arcs extends THREE.Group  {
 		this.arcList = [];
 		this.sharedMaterial = new THREE.ShaderMaterial({
 		      ...gradientShaders,
-		      transparent: false,
+		      transparent: true,
 		      //blending: THREE.AdditiveBlending,
 		      depthWrite: false,
 		      depthTest: false

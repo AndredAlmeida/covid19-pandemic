@@ -44,6 +44,8 @@ export default class Data {
 	}
 
 	getNumber(index) {
+		if(this.dataInfo[this.selectedData].length-1 < index)
+			return 0;
 		var entry = this.dataInfo[this.selectedData][index];
 
 		//console.log(this.day);

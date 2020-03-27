@@ -38,7 +38,6 @@ export default class Overlay {
 
 
 		document.getElementById("selectLabel").addEventListener('mousedown', function(e){
-			console.log("ui ui");
 			e.stopPropagation();
 		}, false);
 
