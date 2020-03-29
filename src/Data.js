@@ -134,7 +134,6 @@ export default class Data {
 			country = "Cyprus";
 
 		if(country == null){
-			console.log("All countries");
 			this.selectedCountry = "Total";
 		}else{
 			// Calculate selected country data
