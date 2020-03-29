@@ -177,7 +177,7 @@ export default class Data {
 				_this.headerArray = Papa.parse(_this.dataInfo["cases"][0]).data[0];
 			}
 
-		  	for(var i = 1; i < _this.countryCount; i++) // i = 1 to exclude header
+		  	for(var i = 1; i < countryCount; i++) // i = 1 to exclude header
 		  	{
 		  		if(!_this.dataInfo[arrayData][i])
 		  			continue;
@@ -372,9 +372,10 @@ export default class Data {
 		var recoveredURL;
 		var deathsURL;
 		if(0){
-			casesURL = "data/time_series_19-covid-Confirmed.csv"; // Use a local file while testing
-			recoveredURL = "data/time_series_19-covid-Recovered.csv"; // Use a local file while testing
-			deathsURL = "data/time_series_19-covid-Deaths.csv"; // Use a local file while testing
+			// Use a local file while testing
+			casesURL = "data/time_series_19-covid-Confirmed.csv";
+			recoveredURL = "data/time_series_19-covid-Recovered.csv";
+			deathsURL = "data/time_series_19-covid-Deaths.csv";
 		}else{
 			casesURL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
 			recoveredURL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv";
@@ -383,9 +384,10 @@ export default class Data {
 
 		var _this = this;
 		this.loadData("cases", true, casesURL, function(){
-			_this.loadDataAlign(recoveredURL);			
+			_this.loadDataAlign(recoveredURL);
 		});
-		this.loadData("deaths", false, deathsURL, null);
+
+		_this.loadData("deaths", false, deathsURL, null);
 
 		// Load transmissions
 		this.loadDivCoordinates();
