@@ -1,8 +1,7 @@
 import * as THREE from 'three';
-import { polar2Cartesian } from '../../utils/coordTranslate';
+import { polar2Cartesian } from '../../utils/CoordTranslate';
 import { Remap, GetBaseLog } from '../../utils/MathUtils';
-import { OFFSET_Z, GLOBE_RADIUS, MAX_SCALE } from './../../Global';
-import Global from './../../Global';
+import Global, { OFFSET_Z, GLOBE_RADIUS, MAX_SCALE } from './../../Global';
 
 export default class Points extends THREE.Group  {
 

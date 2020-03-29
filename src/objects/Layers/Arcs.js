@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { polar2Cartesian } from '../../utils/coordTranslate';
+import { polar2Cartesian } from '../../utils/CoordTranslate';
 import { geoDistance, geoInterpolate } from 'd3-geo';
 import Global, { GLOBE_RADIUS, SIDE_MARGIN } from './../../Global';
 
@@ -60,7 +60,7 @@ const setAttributeFn = new THREE.BufferGeometry().setAttribute ? 'setAttribute' 
 
 export default class Arcs extends THREE.Group  {
 
-	getVec(lng, lat, alt) {
+	getVec([lng, lat, alt]) {
         const { x, y, z } = polar2Cartesian(lat, lng, alt);
         return new THREE.Vector3(x, y, z);
 	}
@@ -74,20 +74,16 @@ export default class Arcs extends THREE.Group  {
 		altitude = geoDistance(startPnt, endPnt) / 2 * altAutoScale;
 
         const interpolate = geoInterpolate(startPnt, endPnt);
+        const [m1Pnt, m2Pnt] = [0.25, 0.75].map(function(t){
+          var inter = interpolate(t);
+          return [inter[0], inter[1], altitude * 1.5];
+        });
 
-        //const [m1Pnt, m2Pnt] = [0.25, 0.75].map(t => [...interpolate(t)]);
-        const [m1Pnt, m2Pnt] = [0.25, 0.75].map(t => [...interpolate(t), altitude * 1.5]);
-
-
-        var v1 = this.getVec(...startPnt);
-        var v2 = this.getVec(...m1Pnt);
-        var v3 = this.getVec(...m2Pnt);
-        var v4 = this.getVec(...endPnt);
-        //console.log([v1,v2,v3,v4]);
+        var v1 = this.getVec(startPnt);
+        var v2 = this.getVec(m1Pnt);
+        var v3 = this.getVec(m2Pnt);
+        var v4 = this.getVec(endPnt);
         const curve = new THREE.CubicBezierCurve3(v1,v2,v3,v4);
-        //const curve = new THREE.CubicBezierCurve3(...[startPnt, m1Pnt, m2Pnt, endPnt].map(this.getVec));
-        //console.log('curve');
-        //console.log(curve);
         return curve;
 
 	}
@@ -113,9 +109,9 @@ export default class Arcs extends THREE.Group  {
     createArc(day, startLat, startLng, endLat, endLng) {
 
 		// Init vars
-		var arcCurveResolution = 16; // ...
-		var arcCircularResolution = 3; // ...
-		var stroke = 0.007; // ...
+		var arcCurveResolution = 16;
+		var arcCircularResolution = 3;
+		var stroke = 0.007;
 		var alt = 1;
 		var altAutoScale = 0.5;
 
@@ -145,7 +141,9 @@ export default class Arcs extends THREE.Group  {
 
 		this.arcList = [];
 		this.sharedMaterial = new THREE.ShaderMaterial({
-		      ...gradientShaders,
+		      uniforms: gradientShaders.uniforms,
+          vertexShader: gradientShaders.vertexShader,
+          fragmentShader: gradientShaders.fragmentShader,
 		      transparent: true,
 		      //blending: THREE.AdditiveBlending,
 		      depthWrite: false,

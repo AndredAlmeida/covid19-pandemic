@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import { ConicPolygonBufferGeometry } from 'three-conic-polygon-geometry';
 import countries from './../../../data/ne_110m_admin_0_countries.json';
-import threeDigest from '../../utils/digest';
 import Global from './../../Global';
 
 export default class Countries extends THREE.Group  {
@@ -35,59 +34,33 @@ export default class Countries extends THREE.Group  {
 					  label: geoProperties.ADMIN
 					});
 				} else if (geoJson.type === 'MultiPolygon') {
-					singlePolygons.push(...geoJson.coordinates.map((coords, idx) => ({
-					  id: `${geoId}_${idx}`,
-					  coords,
-					  label: geoProperties.ADMIN
-					})));
+					geoJson.coordinates.map(function(coords, idx)
+						{
+							singlePolygons.push(
+							{
+								id: `${geoId}_${idx}`,
+								coords,
+								label: geoProperties.ADMIN
+							});
+						}
+					);
 				} else {
 					console.warn(`Unsupported GeoJson geometry type: ${geoJson.type}. Skipping geometry...`);
 				}
 			});
 
-		    threeDigest(singlePolygons, this, {
-				idAccessor: d => d.id,
-				createObj: () => {
-			        const obj = new THREE.Group();
-			        //var sideMaterial = new THREE.MeshPhongMaterial({ color: 0xDDFF77, side: THREE.DoubleSide, depthWrite: true, depthTest: true, transparent: false, emissive: 0x000000 });
-			        var capMaterial = new THREE.MeshPhongMaterial({ color: 0xFFFF77, side: THREE.FrontSide, depthWrite: true, depthTest: true, transparent: false, emissive: 0xFF1100 });
-			        capMaterial.shininess = 1;
-			        var m = new THREE.Mesh(undefined, /*sideMaterial, */capMaterial);
-			        m.origMaterial = capMaterial;
-			        obj.add(m);
-
-			        _this.interceptObjects.push(m);
-			        
-			        return obj;
-			        
-				},
-				updateObj: (obj, { coords, capColor, sideColor, strokeColor, altitude, label }) => {
-					const [mesh] = obj.children;
-					var geometry = new ConicPolygonBufferGeometry(coords, 1, 1, false);
-					mesh.geometry = geometry;
-					geometry.computeVertexNormals();
-					//console.log('Country: ' + label);
-					mesh.label = label;
-
-					/*
-					// Quick check if country names differ in both data sets
-					var dataSet = Global.data.dataInfo["cases"];
-					var len = dataSet.length;
-					var found = false;
-					for(var i = 0; i < len; i++)
-					{
-						if(dataSet[i][1] == label){
-							found = true;
-							break;
-						}
-					}
-					if(!found)
-						console.log("Did not find: " + label);
-					*/
-				}
-
-		    });
-
+			for(var i in singlePolygons)
+			{
+				var countryInfo = singlePolygons[i];
+				var geometry = new ConicPolygonBufferGeometry(countryInfo.coords, 1, 1, false);
+		        var capMaterial = new THREE.MeshPhongMaterial({ color: 0xFFFF77, side: THREE.FrontSide, depthWrite: true, depthTest: true, transparent: false, emissive: 0xFF1100, shininess: 1 });
+				geometry.computeVertexNormals();
+		        var mesh = new THREE.Mesh(geometry, capMaterial);
+		        this.add(mesh);
+		        mesh.origMaterial = capMaterial;
+				mesh.label = countryInfo.label;
+		        _this.interceptObjects.push(mesh);
+			}
 	    });
 
 	}
