@@ -3,6 +3,7 @@ const pkg = require('./package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const buildPath = './build/';
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: ['./src/App.js'],
@@ -41,8 +42,12 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'COVID-19 Pandemic',
-      template: 'index.html'
+      template: 'index.html',
+      favicon: 'favicon.png'
     }),
-    new MiniCssExtractPlugin({ filename: 'styles.css' })
+    new MiniCssExtractPlugin({ filename: 'styles.css' }),
+    new CopyPlugin([
+      { from: 'data', to: 'data' },
+    ])
   ]
 }

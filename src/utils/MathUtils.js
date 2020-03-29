@@ -13,7 +13,10 @@ function Clamp(a,b,c)
 }
 
 function NumberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	var ret = x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	if(ret == "NaN")
+		ret = "N/A";
+    return ret;
 }
 
 export { Remap, GetBaseLog, Clamp, NumberWithCommas };

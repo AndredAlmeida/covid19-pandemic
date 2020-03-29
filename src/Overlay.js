@@ -52,7 +52,17 @@ export default class Overlay {
 		};
 
 
-		document.getElementById("selectLabel").addEventListener('mousedown', function(e){
+		document.getElementById("infoLabelId").addEventListener('mousedown', function(e){
+			e.stopPropagation();
+		}, false);
+		document.getElementById("infoLabelId").addEventListener('mousemove', function(e){
+			e.stopPropagation();
+		}, false);
+
+		document.getElementById("timelineDiv").addEventListener('mousemove', function(e){
+			e.stopPropagation();
+		}, false);
+		document.getElementById("timelineDiv").addEventListener('mouseup', function(e){
 			e.stopPropagation();
 		}, false);
 
@@ -91,11 +101,12 @@ export default class Overlay {
 
 		var cases = Global.data.getCurrentTotal("cases");
 		var recovered = Global.data.getCurrentTotal("recovered");
+		var deaths = Global.data.getCurrentTotal("deaths");
 
 		$('#topId')[0].innerText = NumberWithCommas(cases);
 		$('#secondId')[0].innerText = NumberWithCommas(recovered);
 		$('#thirdId')[0].innerText = NumberWithCommas(Global.data.getCurrentTotal("deaths"));
-		$('#fourthId')[0].innerText = NumberWithCommas(cases - recovered);
+		$('#fourthId')[0].innerText = NumberWithCommas(cases - recovered - deaths);
 
 	}
 }

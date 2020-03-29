@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
+  	<link rel="shortcut icon" href="/favicon.ico">
     <meta charset="UTF-8">
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
-  <body>
+  <body onselectstart="return false;">
   	<div class="topLabel blueText">
   		<div class="titleLabel">
   		COVID-19 PANDEMIC EVOLUTION
 	  	</div>
   	</div>
-  	<div id="pho" class="infoLabel"> 
+  	<div id="infoLabelId" class="infoLabel"> 
 
-  		<div id="totalLabel" class="infoText blueText" style="font-size: 18px; bottom-margin: 0px;">
+  		<div id="totalLabel" class="infoText blueText" style="font-size: 22px; bottom-margin: 0px;">
   			TOTAL
   		</div>
-  		<div id="dateLabel" class="infoText blueText" style="font-size: 38px;margin-top: 0px;">
+  		<div id="dateLabel" class="infoText blueText" style="font-size: 34px;margin-top: 0px;">
   			TODAY
   		</div>
   		<div id="topIdLabel" class="infoText redText" style="font-size: 30px;">
@@ -92,7 +93,7 @@
 		</button>
 
 		<div class="tooltip" id="tooltipId">
-			  <span class="tooltiptext" id="tooltipText">TODAY</span>
+			  <span class="tooltiptext" id="tooltipText" onselectstart="return false;">TODAY</span>
 		</div>
 	</div>
   	<div id="fps"></div>

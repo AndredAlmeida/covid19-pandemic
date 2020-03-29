@@ -98,5 +98,6 @@ export default class World extends THREE.Group {
 
 		this.points.update(dt);
 		this.arcs.update(dt);
+		this.countries.update(dt);
 	}
 }

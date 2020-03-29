@@ -50,7 +50,7 @@ function init() {
 	world = new World();
 
 	// Debug
-    //camera.position.y = 15;
+    //camera.position.x = 35;
     //camera.lookAt(new THREE.Vector3(0,0,0));
 
 	var ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.5);
@@ -82,6 +82,7 @@ function init() {
 
 	Global.timeline = timeline;
 	Global.camera = camera;
+	Global.input = input;
 }
 
 function animate() {
@@ -123,6 +124,7 @@ function windowResizeHandler() {
 	var fpsElement = document.getElementById('fps');
 	if(!fpsElement.lastChild){
 		fpsElement.appendChild(statsFPS.domElement);
+		$('#fps').toggle();
 	}
 	if(Global.timeline)
 		Global.timeline.updateTooltip();

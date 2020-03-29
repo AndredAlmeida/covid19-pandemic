@@ -27,9 +27,25 @@ export default class Input {
 		document.addEventListener('mousedown', this.mousedown, false);
 		document.addEventListener('mouseup', this.mouseup, false);
 
+
+		this.testParam1 = 0;
+	}
+
+	calculateNormalizedMousePos(e) {
+		var threejsWidth = Global.camera.right*2.0;
+		var threejs_x = (e.clientX*threejsWidth)/window.innerWidth;
+		var n_x = (threejs_x/threejsWidth - 0.5)/0.5;
+
+		var threejsHeight = Global.camera.top*2.0;
+		var threejs_y = (e.clientY*threejsHeight)/window.innerHeight;
+		var n_y = -(threejs_y/threejsHeight - 0.5)/0.5;
+
+		inputInstance.normalizedMousePos = {x: n_x, y: n_y};
 	}
 
 	mousemove(e) {
+		Global.world.countries.move();
+
 		if(inputInstance.mouseClicked)
 		{
 			var deltaX = e.clientX - inputInstance.lastX;
@@ -45,11 +61,19 @@ export default class Input {
 
 			inputInstance.lastX = e.clientX;
 			inputInstance.lastY = e.clientY;
+		}else{
+			inputInstance.calculateNormalizedMousePos(e);
+		}
 
+		if(Global.timeline.isAnimationRunning && Global.followCamera && inputInstance.mouseClicked){
+			Global.setFollowCamera(false);
+			$('input#checkboxCameraFollowId').prop('checked', false);
 		}
 	}
 
 	mousedown(e) {
+		Global.world.countries.select();
+
 		inputInstance.mouseClicked = true;
 		inputInstance.lastX = e.clientX;
 		inputInstance.lastY = e.clientY;
@@ -59,7 +83,11 @@ export default class Input {
 	}
 
 	mouseup(e) {
+		Global.world.countries.deselect();
+
 		inputInstance.mouseClicked = false;
+		inputInstance.calculateNormalizedMousePos(e);
+
 	}
 
 	keydown(e) {
@@ -77,7 +105,12 @@ export default class Input {
 		}else if(key == 32) // space
 		{
 			Global.timeline.playPauseClick();
+		}else if(key == 73) // i
+		{
+			$('#fps').toggle();
 		}
+
+
 	}
 
 	keyup(e) {
@@ -96,24 +129,7 @@ export default class Input {
 		var scale = inputInstance.world.worldScale;
 		scale -= e.deltaY/50;
 		scale = Clamp(scale, MIN_SCALE, MAX_SCALE);
-
 		inputInstance.world.worldScale = scale;
-
-		/*
-		// Testing: Checking if world goes inside left panel, adjust opacity
-		var w_units = Math.abs(Global.camera.left*2.0);
-		var w_px = window.innerWidth;
-		var pixelsToUnits = w_units/w_px;
-		var panelW_units = 300*pixelsToUnits; // 300 is panel width
-		var leftWorldPos = w_units/2.0 - scale;
-		if(leftWorldPos < panelW_units)
-		{
-			//$('#infoLabelId').css({ 'background-color': 'rgba(0, 50, 100, 0.5)' });
-		}else{
-			//$('#infoLabelId').css({ 'background-color': 'rgba(0, 50, 100, 0.0)' });
-		}
-		*/
-
 	}
 
 	updateTimeSlider() {
@@ -149,12 +165,6 @@ export default class Input {
 
 		inputInstance.accX = 0;
 		inputInstance.accY = 0;
-
-		if(Global.timeline.isAnimationRunning && Global.followCamera && this.mouseClicked){
-			Global.setFollowCamera(false);
-			$('input#checkboxCameraFollowId').prop('checked', false);
-		}
-
 
 		// Change Time
 		if(this.pressLeft)

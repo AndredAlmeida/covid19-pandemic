@@ -27,7 +27,7 @@ export default class Data {
 	}
 
 	getCurrentTotal(arrayData) {
-		var entry = this.dataInfo[arrayData+"Total"];
+		var entry = this.dataInfo[arrayData+this.selectedCountry];
 		var prevDay = parseInt(this.day);
 		var nextDay = prevDay+1;
 
@@ -47,6 +47,8 @@ export default class Data {
 		if(this.dataInfo[dataString].length-1 < index)
 			return 0;
 		var entry = this.dataInfo[dataString][index];
+		if(!entry)
+			return 0;
 
 		//console.log(this.day);
 		var prevDayIndex = parseInt(this.day+this.firstDayIndex);
@@ -70,17 +72,98 @@ export default class Data {
 		{
 			var casesNum = this.getNumberForData(index, "cases");
 			var recoveredNum = this.getNumberForData(index, "recovered");
-			return casesNum - recoveredNum;
+			var deathsNum = this.getNumberForData(index, "deaths");
+			return casesNum - recoveredNum - deathsNum;
 		}else{
 			return this.getNumberForData(index, this.selectedData);
 		}
+	}
+
+	collectCountryTotals(dataSet, country) {
+		var len = this.dataInfo[dataSet].length;
+		var newData = [];
+		var entryCount = 0;
+		for(var i = 0; i < len; i++)
+		{
+			var entry = this.dataInfo[dataSet][i];
+			if(!entry)
+				continue;
+			if(entry[1] && entry[1].startsWith(country))
+			{
+				entryCount++;
+				var entryLen = entry.length;
+				if(entryCount == 1)
+				{
+					for(var e = this.firstDayIndex; e < entryLen; e++)
+					{
+						newData.push(parseInt(entry[e]));
+					}
+				}else{
+					for(var e = this.firstDayIndex; e < entryLen; e++)
+					{
+						newData[e-this.firstDayIndex] += parseInt(entry[e]);
+					}
+				}
+			}
+		}
+		return newData;
+	}
+
+	selectCountry(country) {
+
+		// "French"
+
+		// Some specific cases
+		if(country == "United States of America")
+			country = "US";
+		else if(country == "Democratic Republic of the Congo" || country ==  "Republic of the Congo")
+			country = "Congo";
+		else if(country == "South Korea")
+			country = "Korea, South";
+		else if(country == "United Republic of Tanzania")
+			country = "Tanzania";
+		else if(country == "East Timor")
+			country = "Timor-Leste";
+		else if(country == "Republic of Serbia")
+			country = "Serbia";
+		else if(country == "Somaliland")
+			country = "Somalia";
+		else if(country == "North Macedonia")
+			country = "Macedonia";
+		else if(country == "Northern Cyprus")
+			country = "Cyprus";
+
+		if(country == null){
+			console.log("All countries");
+			this.selectedCountry = "Total";
+		}else{
+			// Calculate selected country data
+			this.selectedCountry = country;
+
+			var dataSet = "cases";
+			var newData = this.collectCountryTotals(dataSet, country);
+			this.dataInfo[dataSet+this.selectedCountry] = newData;
+			//console.log(newData);
+
+			dataSet = "recovered";
+			var newData = this.collectCountryTotals(dataSet, country);
+			this.dataInfo[dataSet+this.selectedCountry] = newData;
+			//console.log(newData);
+			
+			dataSet = "deaths";
+			var newData = this.collectCountryTotals(dataSet, country);
+			this.dataInfo[dataSet+this.selectedCountry] = newData;
+			//console.log(newData);
+			
+		}
+		$('#totalLabel')[0].innerText = this.selectedCountry;
 	}
 
 	getDateForDay(day) {
 		return this.headerArray[parseInt(day)+this.firstDayIndex]
 	}
 
-	loadData(arrayData, loadIntoPoints, url) {
+	loadData(arrayData, loadIntoPoints, url, cb) {
 		var oReq = new XMLHttpRequest();
 		var _this = this;
 
@@ -130,6 +213,9 @@ export default class Data {
 		  		
 		  	}
 
+		  	if(cb)
+				cb();
+
 		  	// Load into points data
 		  	if(loadIntoPoints)
 			  	_this.world.points.loadData(_this);
@@ -140,9 +226,72 @@ export default class Data {
 
 	}
 
+	loadDataAlign(url) {
+		var oReq = new XMLHttpRequest();
+		var _this = this;
+
+		this.dataInfo["recoveredTotal"] = [];
+
+		oReq.onload = function(){
+			var response = this.responseText;
+			var recoveredCountryList = response.split('\n');
+			_this.dataInfo["recovered"] = [];
+			_this.dataInfo["recovered"].length = _this.countryCount;
+
+		  	for(var i = 1; i < _this.countryCount; i++) // i = 1 to exclude header
+		  	{
+		  		if(!recoveredCountryList[i])
+		  			continue;
+
+		  		var splitLine = Papa.parse(recoveredCountryList[i]).data[0];
+		  		if(splitLine[1] == "Diamond Princess")
+		  		{
+		  			continue;
+		  		}
+		  		
+		  		var recoveredKey = splitLine[0]+splitLine[1];
+		  		for(var e = 0; e < _this.countryCount-1; e++)
+		  		{
+				  	var casesEntry = _this.dataInfo["cases"][e];
+				  	var casesKey = casesEntry[0]+casesEntry[1];
+				  	var recoveredIndex = i-1;
+				  	if(casesKey == recoveredKey){
+				  		_this.dataInfo["recovered"][e] = splitLine;
+				  		//if(recoveredIndex != e)
+						//  	console.log(recoveredKey + " => Place in " + e + " :: " + recoveredIndex);
+				  	}
+		  		}
+
+		  		if(i == 1){
+					_this.dataInfo["recoveredTotal"].length = _this.lastDay;
+		  		}
+
+		  		var len = splitLine.length;
+		  		var counter = 0;
+		  		for(var c = _this.firstDayIndex; c < len; c++)
+		  		{
+		  			var v = parseInt(splitLine[c]);
+
+		  			if(i == 1)
+			  			_this.dataInfo["recoveredTotal"][counter] = v;
+			  		else{
+			  			_this.dataInfo["recoveredTotal"][counter] += v;
+			  		}
+
+		  			counter++;
+		  		}
+		  	}
+		};
+
+		oReq.open("get", url, true);
+		oReq.send();
+
+	}
+
 	loadTransmissions() {
 		var oReq = new XMLHttpRequest();
 		var _this = this;
+		this.selectedCountry = "Total";
 		this.transmissions = [];
 
 		oReq.onload = function(){
@@ -233,9 +382,11 @@ export default class Data {
 			deathsURL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv";
 		}
 
-		this.loadData("cases", true, casesURL);
-		this.loadData("recovered", false, recoveredURL);
-		this.loadData("deaths", false, deathsURL);
+		var _this = this;
+		this.loadData("cases", true, casesURL, function(){
+			_this.loadDataAlign(recoveredURL);			
+		});
+		this.loadData("deaths", false, deathsURL, null);
 
 		// Load transmissions
 		this.loadDivCoordinates();

@@ -21,11 +21,11 @@ export default class Points extends THREE.Group  {
 	  return Math.exp(minv + scale*(value-minp));
 	}
 
-	getSizeFromCases(cases) {
-		if(cases == 0)
+	getSizeFromValue(value) {
+		if(value == 0)
 			return 0.00001;
-		var size = this.logslider(cases);
-		size = GetBaseLog(10, Remap(cases, 0, 80000, 1, 1000));
+		var size = this.logslider(value);
+		size = GetBaseLog(30, Remap(value, 0, 80000, 1, 1000));
 		if(size < 0.05)
 			size = 0.05;
 		size += 0.1;
@@ -39,27 +39,28 @@ export default class Points extends THREE.Group  {
 		return size;
 	}
 
-	addPoint(index, lat, lon, cases) {
+	addPoint(index, lat, lon, value) {
 		var geometry, material, mesh;
-		//var size = this.getSizeFromCases(cases);
-
 		var cartesian = polar2Cartesian(lat, lon);
-		var dotInfo = {x: cartesian.x, y: cartesian.y, z: cartesian.z, cases: cases};
+		var dotInfo = {x: cartesian.x, y: cartesian.y, z: cartesian.z, value: value};
 		this.dotList.push(dotInfo);
 	}
 
 	updateDot(index) {
 		var dotInfo = this.dotList[index];
 
-		// Here, get the correct number of cases in Data class, for the current day (decimal)
+		// Here, get the correct number in Data class, for the current day (decimal)
 		// Calculate sizes
-		// ...
-		//console.log(Global.data);
-		var cases = Global.data.getNumber(index);
-		//if(cases < 0)
-			//console.log(index);
+		var value = Global.data.getNumber(index);
+		var baseScale = this.getSizeFromValue(value);
 
-		var baseScale = this.getSizeFromCases(cases);
+		//var dataSet = Global.data.dataInfo[Global.data.selectedData];
+		//if(dataSet[index][0] != "Hubei"){
+		//	baseScale = 0;
+		//}else{
+			//console.log(dataSet[index][0] + " :: " + baseScale);
+		//	console.log(value);
+		//}
 
 		this.dummy.position.set(dotInfo.x, dotInfo.y, dotInfo.z);
 		this.dummy.getWorldPosition(this.tmpVec);
@@ -110,34 +111,9 @@ export default class Points extends THREE.Group  {
 	  	for(var i = 0; i < this.countryCount-1; i++)
 	  	{
 	  		var entry = data.dataInfo[data.selectedData][i];
-	  		var cases = entry[len-1]; // Last: 58?
-	  		this.addPoint(i, entry[2], entry[3], cases);
+	  		var value = entry[len-1]; // Last: 58?
+	  		this.addPoint(i, entry[2], entry[3], value);
 	  	}
-	}
-
-	updateData(data, offset) {
-		var count = 0;
-	  	for(var i = 0; i < this.countryCount-1; i++)
-	  	{
-	  		var entry = data.arrayData[i];
-	  		var cases = entry[offset];
-	  		count += parseInt(cases);
-	  		this.dotList[i].cases = cases;
-	  		var size;
-	  		var sizeOutline;
-	  		if(cases > 0){
-		  		size = this.logslider(cases);
-				size = GetBaseLog(10, Remap(cases, 0, 80000, 1, 1000));
-				if(size < 0.05)
-					size = 0.05;
-				sizeOutline = size + 0.2;
-			}else{
-				sizeOutline = 0.00001;
-			}
-
-	  		this.dotList[i].backupScale = sizeOutline;
-	  	}
-	  	console.log(count);
 	}
 
 	constructor() {
@@ -162,6 +138,7 @@ export default class Points extends THREE.Group  {
 
 		this.counter = 0;
 		//for(var i = 0; i < 1; i++) // Debug one country (Thailand)
+		var len = Global.data.dataInfo[Global.data.selectedData];		
 		for(var i = 0; i < this.countryCount-1; i++)
 		{
 			this.updateDot(i);

@@ -3,193 +3,86 @@
   <head>
     <meta charset="UTF-8">
     <title>COVID-19 Pandemic</title>
-
-	<style>
-	.infoLabel {
-		position: fixed;
-		height: 300px;
-		width: 300px;
-		background-color: rgba(0, 50, 255, 0.0);
-		box-shadow: 0px 0px 30px rgba(0, 50, 255, 0.0);
-		margin: 15px;
-		border-radius:40px;
-		z-index:10;
-		opacity: 1.0;
-	}
-
-	.infoText {
-		text-align:center;
-		margin-bottom: 0px;
-		margin-top: 15px;
-	}
-
-	.blueText {
-		text-shadow: #0077FF 0 0px 20px;
-		color: #00AAFF;
-	}
-
-	.greenText {
-		text-shadow: #00FF00 0 0px 20px;
-		color: #00FF00;
-	}
-
-	.redText {
-		text-shadow: #FF0000 0 0px 20px;
-		color: #FF0000;
-	}
-
-	.topLabel {
-		position: fixed;
-		text-align:center;
-		top: 20px;
-		width: 100%;
-		height: 30px;
-		font-size: 23px;
-		font-weight: bold;
-	}
-
-	.slider {
-		position: fixed;
-		bottom: 35%;
-		width: 100%;
-		height: 7px;
-		left: 0%;
-		-webkit-appearance: none;
-		-webkit-transition: .2s;
-		border-radius: 15px;
-		background: rgba(0, 50, 155, 1.0);
-		outline: none;
-		box-shadow: 0px 0px 30px rgba(0, 0, 255, 0.5);
-	}
-
-	.slider::-webkit-slider-thumb {
-	  -webkit-appearance: none; /* Override default look */
-	  appearance: none;
-	  width: 20px; /* Set a specific slider handle width */
-	  height: 20px; /* Slider handle height */
-	  background: rgba(0, 80, 255, 1.0); /* Green background */
-	  cursor: pointer; /* Cursor on hover */
-	  border-radius:15px;
-	  box-shadow: 0px 0px 20px rgba(0, 155, 255, 1.0);
-	}
-
-	.slider::-webkit-slider-thumb:hover {
-	  background-color: rgba(0, 120, 255, 1.0);
-	  box-shadow: 0px 0px 20px rgba(0, 195, 255, 1.0);
-	}
-
-	.sliderDiv {
-		position: fixed;
-		bottom: 5px;
-		width: 55%;
-		height: 70px;		
-		left: 50%;
-		background-color: rgba(20, 20, 20, 0.0);
-		transform:translate(-50%,0%);
-		box-shadow: 0px 0px 30px rgba(0, 50, 255, 0.0);
-		border-radius:15px;
-	}
-
-	.playBtnClass {
-		position: fixed;
-		width: 50px;
-		height: 40px;
-		top: 20px;
-		left: 0px;
-		transform:translate(-120%,0%);
-		background-color: rgba(0, 50, 255, 0.4);
-		border-radius:10px;
-		outline: none;
-		border: 0px;
-		box-shadow: 0px 0px 20px rgba(0, 50, 255, 0.3);
-		cursor: pointer;
-	}
-
-	.playBtnClass:hover {
-	  background-color: rgba(0, 50, 255, 0.5);
-	  box-shadow: 0px 0px 20px rgba(0, 50, 255, 0.6);
-	}
-
-	.play {
-	    width: 0;
-	    height: 0;
-	    border-top: 8px solid transparent;
-	    border-left: 12px solid rgba(0, 50, 255, 1.0);
-	    border-bottom: 8px solid transparent;
-	}
-	.pause {
-	    width: 4px;
-	    height: 16px;
-	    border-right: 4px solid rgba(0, 50, 255, 1.0);
-	    border-left: 4px solid rgba(0, 50, 255, 1.0);
-	}
-
-	.tooltip {
-	  position: relative;
-	  display: inline-block;
-	  border-bottom: 1px dotted black;
-	  left: 3%;
-	}
-
-	.tooltip .tooltiptext {
-	  visibility: visible;
-	  width: 70px;
-	  height: 20px;
-	  background-color: rgba(0, 50, 155, 0.6);
-	  box-shadow: 0px 0px 20px rgba(0, 50, 255, 0.3);
-	  color: rgba(0, 100, 255, 1.0);
-	  font-weight: bold;
-	  text-align: center;
-	  border-radius: 6px;
-	  padding: 5px 0;
-	  position: absolute;
-	  z-index: 1;
-	  bottom: 125%;
-	  left: 50%;
-	  margin-left: -44px;
-	  opacity: 1;
-	}
-
-	.tooltip .tooltiptext::after {
-	  content: "";
-	  position: absolute;
-	  top: 100%;
-	  left: 50%;
-	  margin-left: -5px;
-	  border-width: 5px;
-	  border-style: solid;
-	  border-color: rgba(0, 50, 155, 0.6) transparent transparent transparent;
-	}
-
-	</style>
-
   <link href="styles.css" rel="stylesheet"></head>
   <body>
   	<div class="topLabel blueText">
+  		<div class="titleLabel">
   		COVID-19 PANDEMIC EVOLUTION
+	  	</div>
   	</div>
-  	<div class="infoLabel"> 
-  		<div id="topIdLabel" class="infoText blueText" style="font-size: 25px;">
-  			TOTAL CASES
+  	<div id="pho" class="infoLabel"> 
+
+  		<div id="totalLabel" class="infoText blueText" style="font-size: 18px; bottom-margin: 0px;">
+  			TOTAL
   		</div>
-  		<div id="topId" class="infoText blueText" style="font-size: 70px; margin-top: -5px; margin-bottom: 20px;">
-  			316,652
+  		<div id="dateLabel" class="infoText blueText" style="font-size: 38px;margin-top: 0px;">
+  			TODAY
+  		</div>
+  		<div id="topIdLabel" class="infoText redText" style="font-size: 30px;">
+  			CASES
+  		</div>
+  		<div id="topId" class="infoText redText" style="font-size: 65px; margin-top: -5px; margin-bottom: 20px;">
+  			...
   		</div>
 
-  		<div id="secondIdLabel" class="infoText greenText" style="font-size: 20px;">
+  		<div id="secondIdLabel" class="infoText greenText" style="font-size: 15px;">
   			RECOVERED
   		</div>
-  		<div id="secondId" class="infoText greenText" style="font-size: 50px; margin-top: 5px; margin-bottom: 20px;">
-  			94,185
+  		<div id="secondId" class="infoText greenText" style="font-size: 40px; margin-top: 5px; margin-bottom: 20px;">
+  			...
   		</div>
 
-  		<div id="thirdIdLabel" class="infoText redText" style="font-size: 20px;">
+  		<div id="thirdIdLabel" class="infoText purpleText" style="font-size: 15px;">
   			DEATHS
   		</div>
-  		<div id="thirdId" class="infoText redText" style="font-size: 50px; margin-top: 5px;">
-  			13,592
+  		<div id="thirdId" class="infoText purpleText" style="font-size: 40px; margin-top: 5px;">
+  			...
   		</div>
+
+  		<div id="fourthIdLabel" class="infoText brightBlueText" style="font-size: 15px;">
+  			ACTIVE
+  		</div>
+  		<div id="fourthId" class="infoText brightBlueText" style="font-size: 40px; margin-top: 5px;">
+  			...
+  		</div>
+  		<br>
+  		<div id="selectLabel" style="position:relative; background-color: rgba(0, 0, 0, 0.2); width: 200px; height: 305px; left:50%;transform: translate(-50%, 0%);padding-top: 20px;border-radius:25px;font-weight: bold;">
+  			<div class="blueText" style="text-align: center;">
+  				DISPLAY
+  			</div>
+	  		<div class="infoText">
+				<button id="selectCases" class="selectDisplayButton buttonLeft blueText buttonHighlight" type="button">
+					CASES
+				</button>
+				<br>
+				<button id="selectRecoveries" class="selectDisplayButton buttonMiddle blueText" type="button">
+					RECOVERIES
+				</button>
+				<br>
+				<button id="selectDeaths" class="selectDisplayButton buttonMiddle blueText" type="button">
+					DEATHS
+				</button>
+				<br>
+				<button id="selectActive" class="selectDisplayButton buttonRight blueText" type="button">
+					ACTIVE
+				</button>
+				<br><br>
+
+				<label class="container blueText" style="font-size: 13px;">INFECT VECTORS
+				  <input id="checkboxVectorId" type="checkbox" checked="checked">
+				  <span class="checkmark"></span>
+				</label>
+				<br>
+				<label class="container blueText" style="font-size: 13px;">CAMERA FOLLOW
+				  <input id="checkboxCameraFollowId" type="checkbox" checked="checked">
+				  <span class="checkmark"></span>
+				</label>
+			</div>
+		</div>
+
   	</div>
+  	<div class="sliderBGDiv">
+	</div>
   	<div id="timelineDiv" class="sliderDiv">
 	<input type="range" min="0" max="1000" value="1000" class="slider" id="timeRange">
 		<button id="playButton" class="playBtnClass" type="button">
@@ -201,9 +94,8 @@
 		<div class="tooltip" id="tooltipId">
 			  <span class="tooltiptext" id="tooltipText">TODAY</span>
 		</div>
-
 	</div>
   	<div id="fps"></div>
-  <script type="text/javascript" src="main.9289985478c0c9b29c6f.js"></script></body>
+  <script type="text/javascript" src="main.e406a6c0a477a7a8e0b2.js"></script></body>
 </html>
 
