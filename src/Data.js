@@ -183,7 +183,8 @@ export default class Data {
 		  			continue;
 
 		  		var splitLine = Papa.parse(_this.dataInfo[arrayData][i]).data[0];
-		  		if(splitLine[1] == "Diamond Princess")
+		  		//if(splitLine[1] == "Diamond Princess" || splitLine[0] == "Diamond Princess")
+		  		if(splitLine[2] == "0.0" || splitLine[3] == "0.0")
 		  		{
 		  			continue;
 		  		}
@@ -236,6 +237,7 @@ export default class Data {
 			var recoveredCountryList = response.split('\n');
 			_this.dataInfo["recovered"] = [];
 			_this.dataInfo["recovered"].length = _this.countryCount;
+			var canadaCase = false; // Specific case for parsing
 
 		  	for(var i = 1; i < _this.countryCount; i++) // i = 1 to exclude header
 		  	{
@@ -249,12 +251,22 @@ export default class Data {
 		  		}
 		  		
 		  		var recoveredKey = splitLine[0]+splitLine[1];
+		  		var c = false;
+		  		if(splitLine[1] == "Canada"){
+		  			if(canadaCase)
+		  				continue;
+		  			c = true;
+		  		}
 		  		for(var e = 0; e < _this.countryCount-1; e++)
 		  		{
 				  	var casesEntry = _this.dataInfo["cases"][e];
 				  	var casesKey = casesEntry[0]+casesEntry[1];
 				  	var recoveredIndex = i-1;
-				  	if(casesKey == recoveredKey){
+				  	if(c && casesEntry[1] == "Canada"){
+				  		_this.dataInfo["recovered"][e] = splitLine;
+				  		canadaCase = true;
+				  		break;
+				  	}else if(casesKey == recoveredKey){
 				  		_this.dataInfo["recovered"][e] = splitLine;
 				  		//if(recoveredIndex != e)
 						//  	console.log(recoveredKey + " => Place in " + e + " :: " + recoveredIndex);

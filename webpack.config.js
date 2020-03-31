@@ -1,7 +1,6 @@
 const path = require('path');
 const pkg = require('./package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const buildPath = './build/';
 const CopyPlugin = require('copy-webpack-plugin');
 
@@ -15,9 +14,7 @@ module.exports = {
   devtool: 'source-map',
   module: {
     rules: [
-      { test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'] 
-      },{
+      {
         test: /\.js$/,
         use: 'babel-loader',
         exclude: path.resolve(__dirname, './node_modules/'),
@@ -43,11 +40,18 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'COVID-19 Pandemic',
       template: 'index.html',
-      favicon: 'favicon.png'
+      favicon: 'favicon.png',
+      filename: 'index.html'
     }),
-    new MiniCssExtractPlugin({ filename: 'styles.css' }),
+    new HtmlWebpackPlugin({
+      title: 'COVID-19 Pandemic',
+      template: 'mobile.html',
+      favicon: 'favicon.png',
+      filename: 'mobile.html'
+    }),
     new CopyPlugin([
       { from: 'data', to: 'data' },
+      { from: 'css', to: 'css' }
     ])
   ]
 }

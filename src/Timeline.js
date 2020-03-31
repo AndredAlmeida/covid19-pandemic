@@ -40,7 +40,14 @@ export default class Timeline {
 			return;
 
 		var perc = Global.data.day/Global.data.lastDay;
-		var toolTipLeftPerc = perc*(window.innerWidth*0.55) - 20*perc;
+
+		//var toolTipLeftPerc = perc*(window.innerWidth*0.55) - 20*perc;
+		//var toolTipLeftPerc = perc*(window.innerWidth*0.70 - 60*perc);
+		var toolTipLeftPerc;
+		if(Global.mobile)
+			toolTipLeftPerc = perc*(window.innerWidth*0.70) - 60*perc;
+		else
+			toolTipLeftPerc = perc*(window.innerWidth*0.55) - 20*perc;
 
 		$('#tooltipId').css({ 'left': toolTipLeftPerc+'px' });
 		$('#tooltipId').css({ 'opacity': '1.0' });

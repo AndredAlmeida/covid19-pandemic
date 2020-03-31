@@ -109,7 +109,7 @@ export default class Arcs extends THREE.Group  {
     createArc(day, startLat, startLng, endLat, endLng) {
 
 		// Init vars
-		var arcCurveResolution = 16;
+		var arcCurveResolution = 32;
 		var arcCircularResolution = 3;
 		var stroke = 0.007;
 		var alt = 1;

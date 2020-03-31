@@ -1,5 +1,3 @@
-require('../main.css');
-
 import jQuery from "jquery";
 window.$ = window.jQuery = jQuery;
 
@@ -32,8 +30,8 @@ function init() {
 	renderer = new THREE.WebGLRenderer( { antialias: false } );
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	renderer.setClearColor(0x110033);
-	//renderer.sortObjects = false;
-	document.body.appendChild( renderer.domElement );
+	var container = document.getElementById( 'ThreeJS' );
+	container.appendChild(renderer.domElement);
 
 	// Camera
 	var aspect = window.innerWidth/window.innerHeight;
@@ -50,7 +48,12 @@ function init() {
 	world = new World();
 
 	// Debug
-    //camera.position.x = 35;
+	Global.mobile = window.mobileAndTabletcheck();
+	if(Global.mobile)
+	{
+		//world.position.y = -2;
+	    //camera.position.y = 3;
+	}
     //camera.lookAt(new THREE.Vector3(0,0,0));
 
 	var ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.5);
@@ -107,9 +110,22 @@ function windowResizeHandler() {
 	const { innerHeight, innerWidth } = window;
 	renderer.setSize(innerWidth, innerHeight);
 
-	var aspect = window.innerWidth/window.innerHeight;
-	var height = GLOBE_RADIUS*2.0;
-	var width = height*aspect;
+	var aspect;
+	var height;
+	var width;
+	if(window.mobileAndTabletcheck())
+	{
+		// Mobile? Adjust to width
+		aspect = window.innerHeight/window.innerWidth;
+		width = GLOBE_RADIUS*2.0;
+		height = width*aspect;
+	}else{
+		// Desktop? Adjust to height
+		aspect = window.innerWidth/window.innerHeight;
+		height = GLOBE_RADIUS*2.0;
+		width = height*aspect;		
+	}
+
 	camera.top = height / 2;
 	camera.left = width / - 2;
 	camera.right = width / 2;

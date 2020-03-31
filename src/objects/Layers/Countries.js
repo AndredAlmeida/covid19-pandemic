@@ -23,7 +23,6 @@ export default class Countries extends THREE.Group  {
 
 				var geoJson = polygon['geometry'];
 				var geoProperties = polygon['properties'];
-
 			    var geoId = polygon.__id || `${Math.round(Math.random() * 1e9)}`; // generate and stamp polygon ids to keep track in digest
 			    polygon.__id = geoId;
 
@@ -158,7 +157,7 @@ export default class Countries extends THREE.Group  {
 	}
 
 	update(timeStamp) {
-		if(!Global.input.normalizedMousePos)
+		if(!Global.input.normalizedMousePos || Global.mobile)
 			return;
 
 		if(this.hoverCountry)
@@ -172,7 +171,7 @@ export default class Countries extends THREE.Group  {
 		{
 			var raycaster = new THREE.Raycaster();
 	        raycaster.setFromCamera(Global.input.normalizedMousePos, Global.camera);
-	        var intersects = raycaster.intersectObjects(this.interceptObjects, true /* false ??? */);
+	        var intersects = raycaster.intersectObjects(this.interceptObjects, false);
 	        if(intersects.length > 0)
 	        {
 	        	var object = intersects[0].object;
@@ -185,6 +184,31 @@ export default class Countries extends THREE.Group  {
 	        	}
 	        }
     	}
+	}
+
+	// Mobile touch select
+	selectCountry() {
+		if(!Global.input.normalizedMousePos)
+			return;
+
+		if(this.selectedCountry){
+			var list = this.getCountryObjectList(this.selectedCountry);
+			this.setDeselectCountry(list);
+			this.selectedCountry = null;
+		}
+		var raycaster = new THREE.Raycaster();
+        raycaster.setFromCamera(Global.input.normalizedMousePos, Global.camera);
+        var intersects = raycaster.intersectObjects(this.interceptObjects, false);
+        if(intersects.length > 0)
+        {
+        	var object = intersects[0].object;
+        	var countryName = object.label;
+        	var list = this.getCountryObjectList(countryName);
+        	this.setSelectCountry(list);
+        	this.selectedCountry = countryName;
+        }
+    	Global.data.selectCountry(this.selectedCountry);
+
 	}
 
 };

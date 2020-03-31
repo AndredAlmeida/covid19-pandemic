@@ -20,36 +20,76 @@ export default class Input {
 		// Keyboard
 		document.addEventListener('keydown', this.keydown, false);
 		document.addEventListener('keyup', this.keyup, false);
+		
+		var container = document.getElementById( 'ThreeJS' );
+		if(Global.mobile)
+		{
+			// Touchscreen
+			container.addEventListener('touchstart', this.inputdown, false);
+			container.addEventListener('touchmove', this.inputmove, false);
+			container.addEventListener('touchend', this.inputup, false);
 
-		// Mouse
-		document.addEventListener('wheel', this.wheel, false);
-		document.addEventListener('mousemove', this.mousemove, false);
-		document.addEventListener('mousedown', this.mousedown, false);
-		document.addEventListener('mouseup', this.mouseup, false);
+			// Pitch to zoom
+			container.addEventListener('gesturestart', function(e) {
+				Global.input.pinchZoom = 1.0;
+			}, false);
+			container.addEventListener('gesturechange', function(e) {
+				var delta = Global.input.pinchZoom - e.scale;
+				var newScale = Global.world.scale.x - delta*10.0;
 
+				// Limit Scale
+				newScale = Clamp(newScale, 3.0, 40.0);
 
-		this.testParam1 = 0;
+				Global.input.pinchZoom = e.scale;
+				Global.world.scale.x = newScale;
+				Global.world.scale.y = newScale;
+				Global.world.scale.z = newScale;
+
+				inputInstance.normalizedMousePos = undefined;
+			}, false);
+
+		}else{
+			// Mouse
+			container.addEventListener('wheel', this.wheel, false);
+			container.addEventListener('mousemove', this.inputmove, false);
+			container.addEventListener('mousedown', this.inputdown, false);
+			container.addEventListener('mouseup', this.inputup, false);
+		}
 	}
 
-	calculateNormalizedMousePos(e) {
+	calculateNormalizedMousePos(x, y) {
 		var threejsWidth = Global.camera.right*2.0;
-		var threejs_x = (e.clientX*threejsWidth)/window.innerWidth;
+		var threejs_x = (x*threejsWidth)/window.innerWidth;
 		var n_x = (threejs_x/threejsWidth - 0.5)/0.5;
 
 		var threejsHeight = Global.camera.top*2.0;
-		var threejs_y = (e.clientY*threejsHeight)/window.innerHeight;
+		var threejs_y = (y*threejsHeight)/window.innerHeight;
 		var n_y = -(threejs_y/threejsHeight - 0.5)/0.5;
 
 		inputInstance.normalizedMousePos = {x: n_x, y: n_y};
 	}
 
-	mousemove(e) {
-		Global.world.countries.move();
+	inputmove(e) {
+		if(e.touches && e.touches.length > 1)
+			return;
+
+		if(!Global.mobile)
+			Global.world.countries.move();
+
+		var x;
+		var y;
+		if(Global.mobile){
+			x = e.touches[0].clientX;
+			y = e.touches[0].clientY;
+		}else{
+			x = e.clientX;
+			y = e.clientY;
+		}
 
 		if(inputInstance.mouseClicked)
 		{
-			var deltaX = e.clientX - inputInstance.lastX;
-			var deltaY = e.clientY - inputInstance.lastY;
+			var deltaX = x - inputInstance.lastX;
+			var deltaY = y - inputInstance.lastY;
 
 			var moveSpeed = Remap(Global.world.scale.x, MIN_SCALE, MAX_SCALE, 200, 1500);
 
@@ -59,10 +99,15 @@ export default class Input {
 			inputInstance.speedX = inputInstance.accX;
 			inputInstance.speedY = inputInstance.accY;
 
-			inputInstance.lastX = e.clientX;
-			inputInstance.lastY = e.clientY;
+			inputInstance.lastX = x;
+			inputInstance.lastY = y;
 		}else{
-			inputInstance.calculateNormalizedMousePos(e);
+			inputInstance.calculateNormalizedMousePos(x, y);
+		}
+
+		if(Global.mobile){
+			// Cancel selection if we touch moved
+			inputInstance.normalizedMousePos = undefined;
 		}
 
 		if(Global.timeline.isAnimationRunning && Global.followCamera && inputInstance.mouseClicked){
@@ -71,22 +116,40 @@ export default class Input {
 		}
 	}
 
-	mousedown(e) {
-		Global.world.countries.select();
+	inputdown(e) {		
+		var x;
+		var y;
+		if(Global.mobile){
+			x = e.touches[0].clientX;
+			y = e.touches[0].clientY;
+		}else{
+			x = e.clientX;
+			y = e.clientY;
+		}
 
 		inputInstance.mouseClicked = true;
-		inputInstance.lastX = e.clientX;
-		inputInstance.lastY = e.clientY;
+		inputInstance.lastX = x;
+		inputInstance.lastY = y;
 
 		inputInstance.speedX = 0;
 		inputInstance.speedY = 0;
+
+		if(!Global.mobile)
+			Global.world.countries.select();
+		else
+			inputInstance.calculateNormalizedMousePos(x, y);
+
 	}
 
-	mouseup(e) {
-		Global.world.countries.deselect();
+	inputup(e) {
+		if(!Global.mobile)
+			Global.world.countries.deselect();
+		else
+			Global.world.countries.selectCountry();
 
+		var x;
+		var y;
 		inputInstance.mouseClicked = false;
-		inputInstance.calculateNormalizedMousePos(e);
 
 	}
 
