@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { ConicPolygonBufferGeometry } from 'three-conic-polygon-geometry';
 import countries from './../../../data/ne_110m_admin_0_countries.json';
 import Global from './../../Global';
+import { GeoJsonGeometry } from 'three-geojson-geometry';
 
 export default class Countries extends THREE.Group  {
 
@@ -52,14 +53,24 @@ export default class Countries extends THREE.Group  {
 			{
 				var countryInfo = singlePolygons[i];
 				var geometry = new ConicPolygonBufferGeometry(countryInfo.coords, 1, 1, false);
-		        var capMaterial = new THREE.MeshPhongMaterial({ color: 0xFFFF77, side: THREE.FrontSide, depthWrite: true, depthTest: true, transparent: false, emissive: 0xFF1100, shininess: 1 });
+		        var material = new THREE.MeshPhongMaterial({ color: 0xFFFF77, side: THREE.FrontSide, depthWrite: true, depthTest: true, transparent: false, emissive: 0xFF1100, shininess: 1 });
 				geometry.computeVertexNormals();
-		        var mesh = new THREE.Mesh(geometry, capMaterial);
+		        var mesh = new THREE.Mesh(geometry, material);
 		        this.add(mesh);
-		        mesh.origMaterial = capMaterial;
+		        mesh.origMaterial = material;
 				mesh.label = countryInfo.label;
 		        _this.interceptObjects.push(mesh);
-			}
+
+		        // Country Outlines
+				const geoJsonGeometry = {
+		          type: 'Polygon',
+		          coordinates: countryInfo.coords
+		        };
+		        geometry = new GeoJsonGeometry(geoJsonGeometry, 1.001);
+				material = new THREE.LineBasicMaterial({ color: 0xFFBB00, side: THREE.FrontSide, depthWrite: true, depthTest: true, transparent: false});
+		        mesh = new THREE.Line(geometry, material);
+		        this.add(mesh);
+			}		
 	    });
 
 	}
