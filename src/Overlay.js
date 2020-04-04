@@ -3,84 +3,107 @@ import { NumberWithCommas } from './utils/MathUtils.js';
 export default class Overlay {
 
 	constructor() {
-		var selectCasesButton = document.getElementById("selectCases");
-		selectCasesButton.onclick = function(){
+
+		function selectCases(e){
 			Global.data.selectedData = "cases";
-
-			$('#selectDeaths').removeClass("buttonHighlight");
-			$('#selectRecoveries').removeClass("buttonHighlight");
-			$('#selectCases').addClass("buttonHighlight");
-			$('#selectActive').removeClass("buttonHighlight");
-
 			Global.world.setDataColor(0xFF0000, 0x330000);
-		};
-
-		var selectRecoveriesButton = document.getElementById("selectRecoveries");
-		selectRecoveriesButton.onclick = function(){
+		}
+		function selectRecovered(e){
 			Global.data.selectedData = "recovered";
-
-			$('#selectDeaths').removeClass("buttonHighlight");
-			$('#selectRecoveries').addClass("buttonHighlight");
-			$('#selectCases').removeClass("buttonHighlight");
-			$('#selectActive').removeClass("buttonHighlight");
-
 			Global.world.setDataColor(0x00AA00, 0x001100);
-		};
-
-		var selectDeathsButton = document.getElementById("selectDeaths");
-		selectDeathsButton.onclick = function(){
+		}
+		function selectDeaths(e){
 			Global.data.selectedData = "deaths";
-
-			$('#selectDeaths').addClass("buttonHighlight");
-			$('#selectRecoveries').removeClass("buttonHighlight");
-			$('#selectCases').removeClass("buttonHighlight");
-			$('#selectActive').removeClass("buttonHighlight");
-
 			Global.world.setDataColor(0xFF00FF, 0x330033);
-		};
-
-		var selectActiveButton = document.getElementById("selectActive");
-		selectActiveButton.onclick = function(){
+		}
+		function selectActive(e){
 			Global.data.selectedData = "active";
-
-			$('#selectDeaths').removeClass("buttonHighlight");
-			$('#selectRecoveries').removeClass("buttonHighlight");
-			$('#selectCases').removeClass("buttonHighlight");
-			$('#selectActive').addClass("buttonHighlight");
-
 			Global.world.setDataColor(0x009999, 0xFFFFFF);
-		};
+		}
+
+		if(!Global.mobile){
+			var selectCasesButton = document.getElementById("selectCases");
+			selectCasesButton.onclick = function(){
+				$('#selectDeaths').removeClass("buttonHighlight");
+				$('#selectRecoveries').removeClass("buttonHighlight");
+				$('#selectCases').addClass("buttonHighlight");
+				$('#selectActive').removeClass("buttonHighlight");
+
+				selectCases();
+			};
+
+			var selectRecoveriesButton = document.getElementById("selectRecoveries");
+			selectRecoveriesButton.onclick = function(){
+				$('#selectDeaths').removeClass("buttonHighlight");
+				$('#selectRecoveries').addClass("buttonHighlight");
+				$('#selectCases').removeClass("buttonHighlight");
+				$('#selectActive').removeClass("buttonHighlight");
+
+				selectRecovered();
+			};
+
+			var selectDeathsButton = document.getElementById("selectDeaths");
+			selectDeathsButton.onclick = function(){
+				$('#selectDeaths').addClass("buttonHighlight");
+				$('#selectRecoveries').removeClass("buttonHighlight");
+				$('#selectCases').removeClass("buttonHighlight");
+				$('#selectActive').removeClass("buttonHighlight");
+
+				selectDeaths();
+			};
+
+			var selectActiveButton = document.getElementById("selectActive");
+			selectActiveButton.onclick = function(){
+				$('#selectDeaths').removeClass("buttonHighlight");
+				$('#selectRecoveries').removeClass("buttonHighlight");
+				$('#selectCases').removeClass("buttonHighlight");
+				$('#selectActive').addClass("buttonHighlight");
+
+				selectActive();
+			};
 
 
-		document.getElementById("infoLabelId").addEventListener('mousedown', function(e){
-			e.stopPropagation();
-		}, false);
-		document.getElementById("infoLabelId").addEventListener('mousemove', function(e){
-			e.stopPropagation();
-		}, false);
+			document.getElementById("infoLabelId").addEventListener('mousedown', function(e){
+				e.stopPropagation();
+			}, false);
+			document.getElementById("infoLabelId").addEventListener('mousemove', function(e){
+				e.stopPropagation();
+			}, false);
 
-		document.getElementById("timelineDiv").addEventListener('mousemove', function(e){
-			e.stopPropagation();
-		}, false);
+			document.getElementById("timelineDiv").addEventListener('mousemove', function(e){
+				e.stopPropagation();
+			}, false);
 
-		var checkVectorId = $('input#checkboxVectorId');
-		checkVectorId.change(function () {
-		    if (checkVectorId.is(':checked')) {
-		        Global.setDrawVectors(true);
-		    } else {
-		        Global.setDrawVectors(false);
-		    }
-		    Global.world.arcs.visible = Global.drawVectors;
-		});
+			var checkVectorId = $('input#checkboxVectorId');
+			checkVectorId.change(function () {
+			    if (checkVectorId.is(':checked')) {
+			        Global.setDrawVectors(true);
+			    } else {
+			        Global.setDrawVectors(false);
+			    }
+			    Global.world.arcs.visible = Global.drawVectors;
+			});
 
-		var checkFollowId = $('input#checkboxCameraFollowId');
-		checkFollowId.change(function () {
-		    if (checkFollowId.is(':checked')) {
-		        Global.setFollowCamera(true);
-		    } else {
-		        Global.setFollowCamera(false);
-		    }
-		});
+			var checkFollowId = $('input#checkboxCameraFollowId');
+			checkFollowId.change(function () {
+			    if (checkFollowId.is(':checked')) {
+			        Global.setFollowCamera(true);
+			    } else {
+			        Global.setFollowCamera(false);
+			    }
+			});
+
+		// Mobile only
+		}else{
+			$('#topIdLabel')[0].addEventListener('touchstart', selectCases, false);
+			$('#topId')[0].addEventListener('touchstart', selectCases, false);
+			$('#secondIdLabel')[0].addEventListener('touchstart', selectRecovered, false);
+			$('#secondId')[0].addEventListener('touchstart', selectRecovered, false);
+			$('#thirdIdLabel')[0].addEventListener('touchstart', selectDeaths, false);
+			$('#thirdId')[0].addEventListener('touchstart', selectDeaths, false);
+			$('#fourthIdLabel')[0].addEventListener('touchstart', selectActive, false);
+			$('#fourthId')[0].addEventListener('touchstart', selectActive, false);
+		}
 
 		this.restoreConfig();
 	}
