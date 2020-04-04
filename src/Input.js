@@ -16,6 +16,7 @@ export default class Input {
 		this.accY = 0;
 		this.speedX = 0;
 		this.speedY = 0;
+		Global.movingInChart = false;
 
 		// Keyboard
 		document.addEventListener('keydown', this.keydown, false);
@@ -53,7 +54,7 @@ export default class Input {
 			container.addEventListener('wheel', this.wheel, false);
 			container.addEventListener('mousemove', this.inputmove, false);
 			container.addEventListener('mousedown', this.inputdown, false);
-			container.addEventListener('mouseup', this.inputup, false);
+			document.addEventListener('mouseup', this.inputup, false);
 		}
 	}
 
@@ -72,6 +73,13 @@ export default class Input {
 	inputmove(e) {
 		if(e.touches && e.touches.length > 1)
 			return;
+
+		if((Global.movingInChart || Global.movingInChart == undefined) && !Global.mobile){
+			Global.movingInChart = false;
+			Global.data.day = Global.data.saveLastDay;
+			Global.timeline.updateDate(false);
+		}
+
 
 		if(!Global.mobile)
 			Global.world.countries.move();
@@ -202,7 +210,7 @@ export default class Input {
 		var perc = Global.data.day/Global.data.lastDay;
 		slider.value = perc*1000;
 		slider.oninput = backupFunction;
-		Global.timeline.updateTooltip();
+		Global.timeline.updateDate(true);
 	}
 
 	update(dt) {

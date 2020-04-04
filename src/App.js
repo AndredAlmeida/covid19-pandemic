@@ -9,6 +9,7 @@ import { Stats } from 'three-stats';
 import Global, { GLOBE_RADIUS } from './Global';
 import Overlay from './Overlay';
 import Timeline from './Timeline';
+import Chart from './Chart';
 
 var camera, scene, renderer;
 var world;
@@ -18,6 +19,7 @@ var clock;
 var data;
 var overlay;
 var timeline;
+var chart;
 
 init();
 animate();
@@ -86,6 +88,11 @@ function init() {
 	Global.timeline = timeline;
 	Global.camera = camera;
 	Global.input = input;
+
+	if(!Global.mobile){
+		chart = new Chart();
+		Global.chart = chart;
+	}
 }
 
 function animate() {
@@ -99,6 +106,9 @@ function animate() {
 	world.update(dt);
 	overlay.update(dt);
 	timeline.update(dt);
+
+	if(!Global.mobile)
+		chart.update(dt);
 
 	renderer.render(scene, camera);
 
@@ -143,7 +153,7 @@ function windowResizeHandler() {
 		$('#fps').toggle();
 	}
 	if(Global.timeline)
-		Global.timeline.updateTooltip();
+		Global.timeline.updateDate(true);
 };
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler);

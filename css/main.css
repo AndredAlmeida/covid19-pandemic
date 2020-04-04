@@ -226,19 +226,13 @@ a:visited {
 	box-shadow: 0px 0px 20px rgba(0, 50, 255, 0.6);
 }
 
-.buttonHighlight {
-	background-color: rgba(0, 50, 255, 0.8);
-	box-shadow: 0px 0px 20px rgba(0, 50, 255, 0.6);
-	font-size: 14px;
-}
-
-.buttonLeft {
+.buttonTop {
 	border-radius:10px 10px 0px 0px;
 }
 .buttonMiddle {
 	border-radius:0px 0px 0px 0px;
 }
-.buttonRight {
+.buttonBottom {
 	border-radius:0px 00px 10px 10px;
 }
 
@@ -322,4 +316,86 @@ a:visited {
     border-radius: 10px 0px 10px 0px;
 	padding: 10px 10px;
 	color: #05ffff;
+}
+
+.selectGraphButton {
+	width: 25%;
+	height: 30px;
+	background-color: rgba(0, 50, 255, 0.4);
+	outline: none;
+	box-shadow: 0px 0px 20px rgba(0, 50, 255, 0.3);
+	font-size: 11px;
+	margin: 0px;
+	border: 0px;
+	font-weight: bold;
+}
+
+.selectGraphButton:hover {
+	background-color: rgba(0, 50, 255, 0.8);
+	box-shadow: 0px 0px 20px rgba(0, 50, 255, 0.6);
+}
+
+.toggleDataSetButton {
+	width: 23%;
+	height: 22px;
+	background-color: rgba(0, 50, 255, 0.4);
+	outline: none;
+	box-shadow: 0px 0px 20px rgba(0, 50, 255, 0.3);
+	font-size: 10px;
+	margin: 0px;
+	border: 0px;
+	font-weight: bold;
+	margin-left: 2px;
+	margin-right: 2px;
+	margin-bottom: 1px;
+}
+
+.buttonLeft {
+	border-radius:10px 0px 0px 10px;
+}
+
+.buttonRight {
+	border-radius:0px 10px 10px 0px;
+}
+
+.buttonRound {
+	border-radius:10px 10px 10px 10px;
+}
+
+.buttonVerticalTop {
+	border-radius:10px 0px 0px 10px;
+}
+
+.buttonVerticalBottom {
+	border-radius:0px 10px 10px 0px;
+}
+
+.sideButton {
+	width: 50%;
+	height: 30px;
+	background-color: rgba(0, 50, 255, 0.4);
+	outline: none;
+	box-shadow: 0px 0px 20px rgba(0, 50, 255, 0.3);
+	font-size: 12px;
+	margin: 0px;
+	border: 0px;
+	font-weight: bold;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.sideButton:hover {
+	background-color: rgba(0, 50, 255, 0.8);
+	box-shadow: 0px 0px 20px rgba(0, 50, 255, 0.6);
+}
+
+.buttonHighlight {
+	background-color: rgba(0, 50, 255, 0.8);
+	box-shadow: 0px 0px 20px rgba(0, 50, 255, 0.6);
+	font-size: 14px;
+}
+
+.buttonHighlightGraph {
+	background-color: rgba(0, 50, 255, 0.8);
+	box-shadow: 0px 0px 20px rgba(0, 50, 255, 0.6);
 }

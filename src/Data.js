@@ -111,8 +111,6 @@ export default class Data {
 
 	selectCountry(country) {
 
-		// "French"
-
 		// Some specific cases
 		if(country == "United States of America")
 			country = "US";
@@ -156,6 +154,9 @@ export default class Data {
 			
 		}
 		$('#totalLabel')[0].innerText = this.selectedCountry;
+
+		if(!Global.mobile)
+			this.updateChart();
 	}
 
 	getDateForDay(day) {
@@ -219,6 +220,8 @@ export default class Data {
 		  	// Load into points data
 		  	if(loadIntoPoints)
 			  	_this.world.points.loadData(_this);
+
+			  _this.dataLoaded();
 		};
 
 		oReq.open("get", url, true);
@@ -292,6 +295,7 @@ export default class Data {
 		  			counter++;
 		  		}
 		  	}
+		  	_this.dataLoaded();
 		};
 
 		oReq.open("get", url, true);
@@ -371,9 +375,35 @@ export default class Data {
 		}
 	}
 
+	dataLoaded() {
+		if(Global.mobile)
+			return;
+
+		this.loadCounter++;
+		if(this.loadCounter == 3){
+			this.updateChart();
+		}
+	}
+
+	updateChart() {
+		var casesData = this.dataInfo["cases"+this.selectedCountry];
+		var recoveredData = this.dataInfo["recovered"+this.selectedCountry];
+		var deathsData = this.dataInfo["deaths"+this.selectedCountry];
+
+		var activeData = [];
+		activeData.length = casesData.length;
+		for(var i in casesData)
+		{
+			activeData[i] = casesData[i] - recoveredData[i] - deathsData[i];
+		}
+
+		Global.chart.updateChartData(casesData, recoveredData, deathsData, activeData);
+	}
+
 	load() {
 		this.day = 0;
 		this.firstDayIndex = 4;
+		this.loadCounter = 0;
 		this.dataInfo = {};
 		this.selectedData = "cases";
 		this.divCoordinatesReady = false;

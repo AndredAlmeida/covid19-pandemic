@@ -17,7 +17,7 @@ export default class Timeline {
 		playButton.onclick = this.playPauseClick;
 
 		playButton.addEventListener('keydown', function(e){
-			e.stopPropagation();
+			//e.stopPropagation();
 		}, false);
 
 		this.smoothY = 0;
@@ -35,22 +35,22 @@ export default class Timeline {
 
 	}
 
-	updateTooltip(){
+	updateDate(updateTooltip){
 		if(!Global.data.lastDay)
 			return;
 
 		var perc = Global.data.day/Global.data.lastDay;
 
-		//var toolTipLeftPerc = perc*(window.innerWidth*0.55) - 20*perc;
-		//var toolTipLeftPerc = perc*(window.innerWidth*0.70 - 60*perc);
-		var toolTipLeftPerc;
-		if(Global.mobile)
-			toolTipLeftPerc = perc*(window.innerWidth*0.70) - 60*perc;
-		else
-			toolTipLeftPerc = perc*(window.innerWidth*0.55) - 20*perc;
+		if(updateTooltip){
+			var toolTipLeftPerc;
+			if(Global.mobile)
+				toolTipLeftPerc = perc*(window.innerWidth*0.70) - 60*perc;
+			else
+				toolTipLeftPerc = perc*(window.innerWidth*0.55) - 20*perc;
 
-		$('#tooltipId').css({ 'left': toolTipLeftPerc+'px' });
-		$('#tooltipId').css({ 'opacity': '1.0' });
+			$('#tooltipId').css({ 'left': toolTipLeftPerc+'px' });
+			$('#tooltipId').css({ 'opacity': '1.0' });
+		}
 
 		// Update tooltip text
 		var date;
@@ -58,7 +58,6 @@ export default class Timeline {
 
 		if(perc < 1.0){
 			date = Global.data.getDateForDay(Global.data.day);
-			$('#tooltipText')[0].innerHTML = date;
 			var d = new Date(date);
 			const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d)
 			const mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(d)
@@ -68,7 +67,8 @@ export default class Timeline {
 			date = "TODAY";
 			formattedDate = date;
 		}
-		$('#tooltipText')[0].innerHTML = date;
+		if(updateTooltip)
+			$('#tooltipText')[0].innerHTML = date;
 		$('#dateLabel')[0].innerHTML = formattedDate;
 
 	}
@@ -76,7 +76,7 @@ export default class Timeline {
 	updateSeekPosition(){
 		var perc = Global.data.day/Global.data.lastDay;
 		this.slider.value = perc*1000.0;
-		this.updateTooltip();
+		this.updateDate(true);
 	}
 
 	sliderMove(){
@@ -87,7 +87,7 @@ export default class Timeline {
 
 		timeline.isAnimationRunning = false;
 		timeline.setPlayButton();
-		timeline.updateTooltip();
+		timeline.updateDate(true);
 	}
 
 	playPauseClick(e) {

@@ -77,7 +77,7 @@
   				DISPLAY
   			</div>
 	  		<div class="infoText">
-				<button id="selectCases" class="selectDisplayButton buttonLeft blueText buttonHighlight" type="button">
+				<button id="selectCases" class="selectDisplayButton buttonTop blueText buttonHighlight" type="button">
 					CASES
 				</button>
 				<br>
@@ -89,7 +89,7 @@
 					DEATHS
 				</button>
 				<br>
-				<button id="selectActive" class="selectDisplayButton buttonRight blueText" type="button">
+				<button id="selectActive" class="selectDisplayButton buttonBottom blueText" type="button">
 					ACTIVE
 				</button>
 				<br><br>
@@ -131,7 +131,58 @@
 			<br><br>MADE BY<br><a href="https://twitter.com/AndredAlmeida">ANDRE ALMEIDA</a>
 	</font>
 	</center>
-    </div>
+	</div>
+
+	<div style="position: fixed; right:0px; top:0px;width:470px;height:400px; background-color: rgba(0, 0, 50, 0.5);border-radius:0px 0px 0px 20px;">
+		</div>
+	<div id="canvasDiv" style="position: fixed; right:60px; top:20px;">
+
+  		<div id="selectGraphType" style="background-color: rgba(0, 0, 255, 0.0);">
+  			<center>
+			<button id="toggleCases" class="toggleDataSetButton buttonRound redText buttonHighlightGraph" type="button">
+			CASES
+			</button><button id="toggleRecoveries" class="toggleDataSetButton buttonRound greenText buttonHighlightGraph" type="button">
+				RECOVERIES
+			</button><button id="toggleDeaths" class="toggleDataSetButton buttonRound purpleText buttonHighlightGraph" type="button">
+				DEATHS
+			</button><button id="toggleActive" class="toggleDataSetButton buttonRound blueText buttonHighlightGraph" type="button">
+				ACTIVE
+			</button>
+			</center>
+		</div>
+
+		<canvas style="width: 350px; height: 250px; background-color: rgba(0, 50, 100, 0.1);border-radius:0px 0px 0px 0px;border: medium solid #000099;border-radius: 15px;" id="canvas"></canvas>
+		<br>
+		<div style="position: relative;width:100%;height:20px;left: 0;font-size: 12px;color:#0066FF;">
+			<!-- TODO: Hardcoded values: FIX!! -->
+			<div style="position: absolute;width:15%;left: 0%;top:0;">JAN 22</div>
+			<div style="position: absolute;width:15%;left: 14%;top:0;">FEB</div>
+			<div style="position: absolute;width:15%;left: 53%;top:0;">MAR</div>
+			<div style="position: absolute;width:15%;left: 92%;top:0;">APR</div>
+		</div>
+		<div style="position: absolute; top: 22px; left: -50px; width: 50px; height: 250px; color:#0066FF;font-size: 12px;" align="right">
+			<div id="hLine1" style="position: absolute;top: 25%;right: 10px;">10K</div>
+			<div id="hLine2" style="position: absolute;top: 50%;right: 10px;">100K</div>
+			<div id="hLine3" style="position: absolute;top: 75%;right: 10px;">100K</div>
+		</div>
+
+		<div style="position: absolute; top: 133px; left: 246px; width: 250px; background-color: rgba(0, 150, 0, 0.0);transform: rotate(90deg);">
+			<button id="btnCumulative" class="sideButton blueText buttonHighlightGraph buttonVerticalTop" type="button">
+			CUMULATIVE
+			</button><button id="btnDailyNew" class="sideButton blueText buttonVerticalBottom" type="button">
+				DAILY NEW
+			</button>
+		</div>
+		<br>
+  		<div id="selectGraphType" style="background-color: rgba(0, 0, 255, 0.0);">
+  			<center>
+			<button id="selectLinear" class="selectGraphButton buttonLeft blueText" type="button">
+			LINEAR
+			</button><button id="selectLog" class="selectGraphButton buttonRight blueText buttonHighlightGraph" type="button">
+				LOG
+			</button>
+			</center>
+		</div>
 
   	<div id="fps"></div>
   </body>

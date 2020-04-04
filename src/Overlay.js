@@ -62,9 +62,6 @@ export default class Overlay {
 		document.getElementById("timelineDiv").addEventListener('mousemove', function(e){
 			e.stopPropagation();
 		}, false);
-		document.getElementById("timelineDiv").addEventListener('mouseup', function(e){
-			e.stopPropagation();
-		}, false);
 
 		var checkVectorId = $('input#checkboxVectorId');
 		checkVectorId.change(function () {

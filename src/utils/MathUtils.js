@@ -19,4 +19,17 @@ function NumberWithCommas(x) {
     return ret;
 }
 
-export { Remap, GetBaseLog, Clamp, NumberWithCommas };
+function FormatKNumber(number) {
+	number = number.toString();
+	if(number.length > 3)
+		return parseInt(number/1000)+'K';
+	else
+		return number;
+}
+
+function SetCharAt(str,index,chr) {
+    if(index > str.length-1) return str;
+    return str.substr(0,index) + chr + str.substr(index+1);
+}
+
+export { Remap, GetBaseLog, Clamp, NumberWithCommas, FormatKNumber, SetCharAt };
