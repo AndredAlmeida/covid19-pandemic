@@ -17,7 +17,7 @@ export default class Timeline {
 		playButton.onclick = this.playPauseClick;
 
 		playButton.addEventListener('keydown', function(e){
-			//e.stopPropagation();
+			e.stopPropagation();
 		}, false);
 
 		this.smoothY = 0;

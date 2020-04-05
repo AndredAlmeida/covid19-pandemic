@@ -216,10 +216,6 @@ export default class Chart {
 		}	
 		if(this.minY == Number.NEGATIVE_INFINITY)
 			this.minY = 0;
-
-
-
-
 	}
 
 	convertToDailyNew(data)
@@ -239,6 +235,9 @@ export default class Chart {
 		this.sourceData[1] = recoveriesDataInfo.slice();
 		this.sourceData[2] = deathsDataInfo.slice();
 		this.sourceData[3] = activeDataInfo.slice();
+
+		if(casesDataInfo.length == 0)
+			return;
 
 		this.refreshCharts();
 	}
@@ -400,6 +399,9 @@ export default class Chart {
 
 	update(dt) {
 		this.context.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+
+		if(this.sourceData[0] && this.sourceData[0].length == 0)
+			return;
 
 		var cursorX;
 		if(Global.movingInChart){
